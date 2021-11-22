@@ -14,7 +14,7 @@ import Input from './components/Input';
 import Task from './components/Task';
 import IconButton from './components/IconButton';
 import { images } from './images';
-
+//hi
 export default function App() {
 
     const width = Dimensions.get('window').width;
