@@ -73,7 +73,7 @@ export default function App() {
             <StatusBar barStyle="light-content" style={textStyles.statusBar}/>
             <View style={iconStyles.bottomicon}>  
             <IconButton type={images.left}/>
-            <Text style={textStyles.title}>NOV 1</Text>
+            <Text style={textStyles.title}>NOV 11</Text>
             <IconButton type={images.right}/>
             </View>
             <Text style={textStyles.select}>select all</Text>
