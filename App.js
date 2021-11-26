@@ -6,12 +6,12 @@ import { images } from './images';
 import IconButton from './components/IconButton';
 import Task from './components/Task';
 import Calendar from './components/Calendar';
+import {CalndarList, Agenda, LocaleConfig } from "react-native-calendars";
 
 export default function App(){
 
     const width = Dimensions.get('window').width;
     const [newTask, setNewTask] = useState('');
-    const [value, onChange] = useState(new Date());
 
     const [tasks, setTasks] = useState({
         '1' : {id: '1', text: "Todo item #1", completed: false},
@@ -57,9 +57,7 @@ export default function App(){
     return (
         <SafeAreaView style = {ViewStyles.container}>
         <StatusBar barStyle="light-content" style={textStyles.statusBar}/>
-
-        <Calendar value={value} onChange={onChange} />
-
+            <Calendar />
         </SafeAreaView>
     );
 };
