@@ -1,13 +1,5 @@
-import React, { useState } from 'react'; //JSX(Javascript + eXtensible Markup Language) 구문이 있는 코드에 필요한 import문 
-//react는 오픈 소스 자바스크립트 라이브러리(페이스북이 지원)
-//리액트는 가상 DOM을 사용해 기존 DOM을 대체함. 변경 전후의 가상 DOM을 비교해 차이만 실제 DOM에 적용하는 방식. 
-/**
- * View: 리액트 네이티브 컴포넌트 UI 생성 시 가장 기본이 되는 조립 블록. HTML 태그의 div 태그와 비슷함. 
- * Text: HTML 태그의 span 태그와 비슷함. 
- * react와 react-native 패키지는 npm 모듈을 이용해서 사용할 수 있음. 
- * 리액트 네이티브는 컴포넌트 속성이 바뀌면 이를 즉각 화면에 반영해야 함.
- * 리액트와 리액트 네이티브에서 속성은 '클래스 속성 + 재렌더링'을 의미하는 용어. 
- * */
+//Edit Screen
+import React, { useState } from 'react'; 
 import {StatusBar, SafeAreaView, Text, Dimensions, ScrollView, View} from 'react-native';
 import {viewStyles, textStyles, iconStyles} from './styles';
 import Input from './components/Input';
