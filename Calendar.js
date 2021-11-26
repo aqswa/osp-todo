@@ -1,12 +1,14 @@
 import React from 'react';
-import {View, StyleSheet, Dimensions} from 'react-native';
+import {View, StyleSheet,Dimensions } from 'react-native';
 import { theme } from "../theme";
 import { Calendar, CalndarList, Agenda, LocaleConfig } from "react-native-calendars";
+import { images } from '../images';
+import IconButton from './IconButton';
 
 
 LocaleConfig.locales['fr'] = {
-    monthNames: ['January','Féburary','March','April','May','June','July','August','September','October','November','Décember'],
-    monthNamesShort: ['Jan.','Fév.','Mar.','April','May','June','July','Aug.','Sept.','Oct.','Nov.','Déc.'],
+    monthNames: ['January','Feburary','March','April','May','June','July','August','September','October','November','December'],
+    monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
     dayNames: ['일요일','월요일', '화요일','수요일','목요일','금요일','토요일'],
     dayNamesShort: ['일', '월','화','수','목','금','토'],
     today: 'Aujourd\'hui'
@@ -14,19 +16,51 @@ LocaleConfig.locales['fr'] = {
   LocaleConfig.defaultLocale = 'fr';
 
   const calendar  = () => {
-      <View style = {calendarStyle.style}>
-          <Calendar
-          current = {'2021-11-26'}
-          minDate = {'2020-01-01'}
-          maxDate = {'2022-12-31'}
+      return(
+      <View>
+          <View style = {calStyle.top}>
+              <IconButton type = {images.search}/>
+              <IconButton type = {images.add} />
+          </View>
+          
+          <Calendar style = {calStyle.container}
+           // Specify theme properties to override specific styles for calendar parts. Default = {}
+            theme={{
+            backgroundColor: theme.background,
+            calendarBackground: theme.background,
+            textSectionTitleColor: '#FFD700', //일월화수목금토 
+            textSectionTitleDisabledColor: '#d9e1e8',
+            selectedDayBackgroundColor: '#00adf5',
+            selectedDayTextColor: '#ffffff',
+            todayTextColor: '#00adf5',
+            dayTextColor: '#B0C4DE',
+            textDisabledColor: '#d9e1e8',
+            dotColor: '#00adf5',
+            selectedDotColor: '#ffffff',
+            arrowColor: 'white',
+            disabledArrowColor: '#d9e1e8',
+            monthTextColor: 'white', //맨 위에 month year 색상
+            indicatorColor: 'blue',
+            textDayFontFamily: 'monospace',
+            textMonthFontFamily: 'monospace',
+            textDayHeaderFontFamily: 'monospace',
+            textDayFontWeight: '300',
+            textMonthFontWeight: 'bold',
+            textDayHeaderFontWeight: '300',
+            textDayFontSize: 16,
+            textMonthFontSize: 16,
+            textDayHeaderFontSize: 16}}>
 
-          onDayLongPress={(day) => {console.log('selected day', day)}}
+            current = {'2021-11-26'}
+            minDate = {'2020-01-01'}
+            maxDate = {'2022-12-31'}
+
+            onDayLongPress={(day) => {console.log('selected day', day)}}
             // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
             monthFormat={'yyyy MM'}
             // Handler which gets executed when visible month changes in calendar. Default = undefined
             onMonthChange={(month) => {console.log('month changed', month)}}
-            // Hide month navigation arrows. Default = false
-            hideArrows={true}
+            // Hide month navigation arrows. Default = false                hideArrows={true}
             // Replace default arrows with custom ones (direction can be 'left' or 'right')
             renderArrow={(direction) => (<Arrow/>)}
             // Do not show days of other months in month page. Default = false
@@ -55,18 +89,27 @@ LocaleConfig.locales['fr'] = {
             renderHeader={(date) => {/*Return JSX*/}}
             // Enable the option to swipe between months. Default = false
             enableSwipeMonths={true}
-          />
+        </Calendar>
 
-      </View>
-  } 
+    </View>
+    )
+} 
 
+const calStyle = StyleSheet.create({
+      top: {
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+          backgroundColor: theme.itemBackground,
+          borderRadius: 10,
+          padding: 0,
+          marginTop: 3
+      },
 
-  const calendarStyle = StyleSheet.create({
-    style:{
-        width: Dimensions.get('window').width-20,
-        height: 100,
-        marginTop: 300
-    }
-  })
+      container: {
+        height: 350,
+        marginTop: 150,
+        width:  Dimensions.get('window').width-50
+      },
+  });
 
-  export default Calendar;
+  export default calendar;

@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import {StatusBar, SafeAreaView, Text, Dimensions, ScrollView} from 'react-native';
+import {StatusBar, SafeAreaView, Text, Dimensions, ScrollView, View} from 'react-native';
 import { ViewStyles, textStyles } from './styles';
 import Input from './components/Input';
 import { images } from './images';
 import IconButton from './components/IconButton';
 import Task from './components/Task';
 import Calendar from './components/Calendar';
-import {CalndarList, Agenda, LocaleConfig } from "react-native-calendars";
+import { theme } from './theme';
 
 export default function App(){
 
@@ -57,6 +57,7 @@ export default function App(){
     return (
         <SafeAreaView style = {ViewStyles.container}>
         <StatusBar barStyle="light-content" style={textStyles.statusBar}/>
+        
             <Calendar />
         </SafeAreaView>
     );
