@@ -8,18 +8,17 @@ import React, { useState } from 'react'; //JSX(Javascript + eXtensible Markup La
  * 리액트 네이티브는 컴포넌트 속성이 바뀌면 이를 즉각 화면에 반영해야 함.
  * 리액트와 리액트 네이티브에서 속성은 '클래스 속성 + 재렌더링'을 의미하는 용어. 
  * */
-import {StatusBar, SafeAreaView, Text, Dimensions, ScrollView, View} from 'react-native';
-import {viewStyles, textStyles, iconStyles} from './styles';
+import {StatusBar, SafeAreaView, Text, Dimensions, ScrollView, View, TouchableOpacity, Pressable, StyleSheet} from 'react-native';
+import {viewStyles, textStyles, iconStyles, btnStyles} from './styles';
 import Input from './components/Input';
 import Task from './components/Task';
 import IconButton from './components/IconButton';
 import { images } from './images';
-//hi
+
 export default function App() {
 
     const width = Dimensions.get('window').width;
     const [newTask, setNewTask] = useState(''); //const [값, 값을 변경하는 함수] = useState(상태의 초기 값)
-
     const [tasks, setTasks] = useState({ //tasks 배열의 초기값을 '1', '2'로 초기화
         '1': {id: '1', text: "Todo item #1", completed: false}, //complete되지 않은 상태
         '2': {id: '2', text: "Todo item #2", completed: true}, //complete한 상태
@@ -29,7 +28,7 @@ export default function App() {
 
     }
 
-    const _addTask = () =>{ //_addTask stateless 컴포넌트
+    const _addTask = () =>{ //iconButton onPressOUt에 대한 콜백 함수
         alert('Add: ${newTask}'); 
         const ID = Date.now().toString(); //Javascript: Date.now() 메소드는 UTC 기준으로 1970년 1월 1일 0시 0분 0초부터 현재까지 경과된 밀리 초를 반환
         const newTaskObject = {
@@ -71,23 +70,25 @@ export default function App() {
     return(
         <SafeAreaView style = {viewStyles.container}>
             <StatusBar barStyle="light-content" style={textStyles.statusBar}/>
-            <View style={iconStyles.bottomicon}>  
+            <View style={btnStyles.bottomicon}>  
             <IconButton type={images.left}/>
-            <Text style={textStyles.title}>NOV 11</Text>
+            <Text style={textStyles.title}>NOV 22</Text>
             <IconButton type={images.right}/>
             </View>
-            <Text style={textStyles.select}>select all</Text>
+            <TouchableOpacity style={btnStyles.selectall}>
 
+            <Text style={textStyles.select}>complete</Text>
+            </TouchableOpacity>
                 <ScrollView width = {width-20}>
                     {Object.values(tasks).map(item => (
-                        <Task key = {item.id} item={item} deleteTask={_deleteTask} 
+                        <Task key = {item.id} item={item} deleteTask={_deleteTask}  //리액트 컴포넌트가 여러 컴포넌트를 구분하라 수 있도록 id값 설정
                         toggleTask={_toggleTask} updateTask={_updateTask}/>
                     ))}
-                    <View style={iconStyles.bottomicon}>
-                    <IconButton type={images.update}/>
+                    <View style={btnStyles.bottomicon}>
                     <IconButton type={images.add} onPressOut={_addTask}/>
                     </View>
                 </ScrollView>
         </SafeAreaView>
     );
 };
+
