@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {images} from '../images';
 
 const IconButton = ({type, onPressOut, id}) => { //IconButton 컴포넌트. type, onPressOut, id 속성을 가짐. 
-    const _onPressOut = () =>{ //??
+    const _onPressOut = () => { //??
         onPressOut(id);
     };
 

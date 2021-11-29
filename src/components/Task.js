@@ -1,14 +1,17 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, Button, TouchableOpacity, Image, Pressable, Modal} from 'react-native';
 import {theme} from '../theme';
 import PropTypes from 'prop-types';
 import IconButton from './IconButton';
 import {images} from '../images';
 import Input from './Input';
+import { ModalPicker } from './ModalPicker';
+import { btnStyles } from '../styles';
 
 const Task = ({item, deleteTask, toggleTask, updateTask}) => { //속성이 있는 경우 컴포넌트를 화살표 함수로 만드는 것이 편함. 속성값이 객체일 때 {}로 감쌈. 
     const [isEditing, setIsEditing] = useState(false); //isEditing 변수를 false로 초기화함.
     const [text, setText] = useState(item.text); //text 변수를 item의 text 값으로 초기화함.
+
     const _handleUpdateButtonPress = () => { //update 버튼이 눌리면 isEditing 변수를 true로 갱신함.
         setIsEditing(true);
     };
@@ -27,6 +30,15 @@ const Task = ({item, deleteTask, toggleTask, updateTask}) => { //속성이 있�
         }
     };
 
+    const [chooseData, setChooseData] = useState('❔');
+    const [isModalVisible, setisModalVisible] = useState(false);
+    const changeModalVisibility = (bool) => {
+        setisModalVisible(bool)
+    }
+    const setData = (option) => {
+        setChooseData(option)
+    }
+
     return isEditing ? (
         <Input value={text} onChangeText={text => setText(text)}
         onSubmitEditing={_onSubmitEditing}
@@ -39,8 +51,27 @@ const Task = ({item, deleteTask, toggleTask, updateTask}) => { //속성이 있�
                 {color: (item.completed ? theme.done : theme.text)},
                 {textDecorationLine: (item.completed? 'line-through' : 'none')}]}>
                 {item.text}</Text>
-            <IconButton type={images.emotion}></IconButton>
+            {item.completed || (<IconButton type={images.update} onPressOut={_handleUpdateButtonPress}/>)}
+
+            <TouchableOpacity
+                onPress={() => changeModalVisibility(true)}
+            >
+                <Text style={btnStyles.emotionIcon}>{chooseData}</Text>
+            </TouchableOpacity>
+
+            <Modal
+                transparent={true}
+                animationType='fade'
+                visible={isModalVisible}
+                nRequestClose={() => changeModalVisibility(false)}
+            >
+                <ModalPicker
+                    changeModalVisibility={changeModalVisibility}
+                    setData={setData}
+                />
+            </Modal>
         </View>
+
     );
 };
 
@@ -60,6 +91,7 @@ const taskStyle = StyleSheet.create({
         fontSize: 24,
         color: theme.text,
     },
+
 });
 
 Task.propTypes = {
