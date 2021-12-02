@@ -1,5 +1,9 @@
 import React, {useState} from 'react';
+<<<<<<< Updated upstream
 import {StyleSheet, View, Text, Button, TouchableOpacity, Image, Pressable, Modal} from 'react-native';
+=======
+import {StyleSheet, View, Text, Button, TouchableOpacity, Image, Pressable, Modal, TextInput, ImageEditor} from 'react-native';
+>>>>>>> Stashed changes
 import {theme} from '../theme';
 import PropTypes from 'prop-types';
 import IconButton from './IconButton';
@@ -49,10 +53,22 @@ const Task = ({item, deleteTask, toggleTask, updateTask}) => { //속성이 있�
             id = {item.id} onPressOut = {toggleTask} completed={item.completed}/>
             <Text style={[taskStyle.contents,
                 {color: (item.completed ? theme.done : theme.text)},
+<<<<<<< Updated upstream
                 {textDecorationLine: (item.completed? 'line-through' : 'none')}]}>
                 {item.text}</Text>
             {item.completed || (<IconButton type={images.update} onPressOut={_handleUpdateButtonPress}/>)}
 
+=======
+                {textDecorationLine: (item.completed? 'line-through' : 'none')}]}
+                //editable = {item.completed? false : true}
+                //selectTextOnFocus = {item.completed? false : true}
+                //placeholder="Type your task"
+                >
+                    {item.text}
+            </Text>
+            {item.completed || <IconButton type={images.update} id = {item.id} onPressOut={_handleUpdateButtonPress}/>}
+            <IconButton type={images.delete} id = {item.id} onPressOut = {deleteTask}/>
+>>>>>>> Stashed changes
             <TouchableOpacity
                 onPress={() => changeModalVisibility(true)}
             >

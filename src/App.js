@@ -15,6 +15,13 @@ import Task from './components/Task';
 import IconButton from './components/IconButton';
 import { images } from './images';
 
+const FILTER_MAP = {
+    0: () => true,
+    1: item => !item.completed,
+    2: item => item.completed
+};
+const FILTER_NAMES = Object.keys(FILTER_MAP);
+
 export default function App() {
 
     const width = Dimensions.get('window').width;
@@ -24,9 +31,8 @@ export default function App() {
         '2': {id: '2', text: "Todo item #2", completed: true}, //complete한 상태
     });
 
-    const _addInput = () =>{
-
-    }
+    const SHOWSTATES = ['all', 'incomplete', 'complete'];
+    const [sortStateIndex, setSortStateIndex] = useState(0);
 
     const _addTask = () =>{ //iconButton onPressOUt에 대한 콜백 함수
         alert('Add: ${newTask}'); 
@@ -50,7 +56,7 @@ export default function App() {
         setTasks(currentTasks); //tasks 배열을 변경된 currentTasks로 갱신함. 
     };
 
-    const _updateTask = item =>{ //item을 속성으로 받는 컴포넌트
+    const _updateTask = item => { //item을 속성으로 받는 컴포넌트
         const currentTasks = Object.assign({}, tasks); 
         currentTasks[item.id] = item; //넘겨받은 item의 id를 갖는 task를 item으로 변경함. 
         setTasks(currentTasks); //tasks 배열을 변경된 currentTasks로 갱신함. 
@@ -64,6 +70,10 @@ export default function App() {
         setNewTask(text); //newTask값을 text로 갱신함. 
     };
 
+    const _setSortStateIndex = () => {
+        setSortStateIndex((sortStateIndex+1)%3);
+    }
+
     //XML 마크업 구조에 {}로 자바스크립트 코드를 감싸는 형태의 문법
     //onSubmitEditing: submit 버튼이 눌리면 _addTask가 실행됨. 
     //onBlur: item이 focus를 잃으면 실행됨. 
@@ -75,16 +85,31 @@ export default function App() {
             <Text style={textStyles.title}>NOV 22</Text>
             <IconButton type={images.right}/>
             </View>
+<<<<<<< Updated upstream
             <TouchableOpacity style={btnStyles.selectall}>
+=======
+
+            <TouchableOpacity style={btnStyles.selectall} onPress={_setSortStateIndex}>
+            <Text style={textStyles.select}>{SHOWSTATES[sortStateIndex]}</Text>
+            </TouchableOpacity>
+>>>>>>> Stashed changes
 
             <Text style={textStyles.select}>complete</Text>
             </TouchableOpacity>
                 <ScrollView width = {width-20}>
+<<<<<<< Updated upstream
                     {Object.values(tasks).map(item => (
+=======
+                    {Object.values(tasks).filter(FILTER_MAP[sortStateIndex]).map(item => (
+>>>>>>> Stashed changes
                         <Task key = {item.id} item={item} deleteTask={_deleteTask}  //리액트 컴포넌트가 여러 컴포넌트를 구분하라 수 있도록 id값 설정
                         toggleTask={_toggleTask} updateTask={_updateTask}/>
                     ))}
                     <View style={btnStyles.bottomicon}>
+<<<<<<< Updated upstream
+=======
+                    <IconButton type={images.update}/>
+>>>>>>> Stashed changes
                     <IconButton type={images.add} onPressOut={_addTask}/>
                     </View>
                 </ScrollView>

@@ -3,11 +3,19 @@ import {
     Dimensions, StyleSheet, Text, View,
     TouchableOpacity, ScrollView
 } from 'react-native';
+<<<<<<< Updated upstream
 import { images } from '../images';
 
 const OPTIONS = ['😀', '😍', '🤣', '❤️', '😡'];
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
+=======
+
+const OPTIONS = ['😀', '❗', '❤️', '🔥', '💊', '🛒'];
+const WIDTH = Dimensions.get('window').width;
+const HEIGHT = Dimensions.get('window').height;
+
+>>>>>>> Stashed changes
 const ModalPicker = (props) => {
 
     const onPressItem = (option) => {
