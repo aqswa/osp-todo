@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {StatusBar, SafeAreaView, Text, Dimensions, ScrollView, View} from 'react-native';
+import {StatusBar, Text, Dimensions, ScrollView, View} from 'react-native';
+import { SafeAreaInsetsContext, SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { ViewStyles, textStyles } from './styles';
 import Input from './components/Input';
 import { images } from './images';
@@ -7,11 +8,36 @@ import IconButton from './components/IconButton';
 import Task from './components/Task';
 import Calendar from './components/Calendar';
 import { theme } from './theme';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import SearchEngine from './components/Search_App'
+import { ScreenStack } from 'react-native-screens';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
+
+function CalendarScreen(){
+    return (
+        <SafeAreaView style={ViewStyles.container}>
+            <Calendar />
+        </SafeAreaView>
+    )
+}
+
+function SearchScreen(){
+    return (
+        <SafeAreaView style = {ViewStyles.container}>
+            <SearchEngine/>
+        </SafeAreaView>
+    )
+}
+
+const Stack = createStackNavigator();
 
 export default function App(){
 
     const width = Dimensions.get('window').width;
     const [newTask, setNewTask] = useState('');
+    
 
     const [tasks, setTasks] = useState({
         '1' : {id: '1', text: "Todo item #1", completed: false},
@@ -46,6 +72,7 @@ export default function App(){
         setTasks(currentTasks);
     };
 
+
     const _onBlur = () => {
         setNewTask('');
     };
@@ -54,11 +81,17 @@ export default function App(){
         setNewTask(text);
     };
 
+
     return (
-        <SafeAreaView style = {ViewStyles.container}>
-        <StatusBar barStyle="light-content" style={textStyles.statusBar}/>
-        
-            <Calendar />
-        </SafeAreaView>
+        <SafeAreaProvider>
+        <NavigationContainer >
+                <StatusBar barStyle="light-content" style={textStyles.statusBar}/>
+                <Stack.Navigator initialRouteName="calendar" screenOptions = {{headerShown: false}}>
+                    <Stack.Screen name = "calendar" component = {CalendarScreen} />
+                    <Stack.Screen name = "SearchScreen" component = {SearchScreen} />
+                </Stack.Navigator>
+        </NavigationContainer>
+        </SafeAreaProvider>
+       
     );
 };
