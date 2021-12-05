@@ -14,6 +14,8 @@ import Input from './components/Input';
 import Task from './components/Task';
 import IconButton from './components/IconButton';
 import { images } from './images';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import AppLoading from 'expo-app-loading';
 
 const FILTER_MAP = {
     0: () => true,
@@ -25,41 +27,55 @@ const FILTER_NAMES = Object.keys(FILTER_MAP);
 export default function App() {
 
     const width = Dimensions.get('window').width;
+    const [isReady, setIsReady] = useState(false);
     const [newTask, setNewTask] = useState(''); //const [값, 값을 변경하는 함수] = useState(상태의 초기 값)
     const [tasks, setTasks] = useState({ //tasks 배열의 초기값을 '1', '2'로 초기화
-        '1': {id: '1', text: "Todo item #1", completed: false}, //complete되지 않은 상태
-        '2': {id: '2', text: "Todo item #2", completed: true}, //complete한 상태
+        '1': {id: '1', text: "Todo item #1", completed: false, emotion: '❔'}, //complete되지 않은 상태
+        '2': {id: '2', text: "Todo item #2", completed: true, emotion: '❔'}, //complete한 상태
     });
+
+    const _saveTasks = async tasks => {
+        try{
+            await AsyncStorage.setItem('tasks', JSON.stringify(tasks));
+            setTasks(tasks);
+        }catch (e){
+            console.error(e);
+        }
+    }
+    const _loadTasks = async () => {
+        const loadedTasks = await AsyncStorage.getItem('tasks');
+        setTasks(JSON.parse(loadedTasks || '{}'));
+    };
 
     const SHOWSTATES = ['all', 'incomplete', 'complete'];
     const [sortStateIndex, setSortStateIndex] = useState(0);
 
     const _addTask = () =>{ //iconButton onPressOUt에 대한 콜백 함수
-        alert('Add: ${newTask}'); 
+        alert(`Add: ${newTask}`); 
         const ID = Date.now().toString(); //Javascript: Date.now() 메소드는 UTC 기준으로 1970년 1월 1일 0시 0분 0초부터 현재까지 경과된 밀리 초를 반환
         const newTaskObject = {
-            [ID]: {id: ID, text: newTask, completed: false}, 
+            [ID]: {id: ID, text: newTask, completed: false, emotion:'❔'}, 
         }; //생성된 시각이 id인 newTaskObject 생성.
         setNewTask(''); //newTask 값을 ''으로 갱신함
-        setTasks({...tasks, ...newTaskObject}); //...: spread syntax.
+        _saveTasks({...tasks, ...newTaskObject}); //...: spread syntax.
     };
 
     const _deleteTask = id => { //_deleteTask 컴포넌트
         const currentTasks = Object.assign({}, tasks); //currentTasks 변수에 tasks 배열을 입력함
         delete currentTasks[id]; //currentTasks 중에서 id가 id인 task를 지움.
-        setTasks(currentTasks); //tasks 배열을 currentTasks로 갱신함. 
+        _saveTasks(currentTasks); //tasks 배열을 currentTasks로 갱신함. 
     };
 
     const _toggleTask = id => { 
         const currentTasks = Object.assign({}, tasks); 
         currentTasks[id]['completed'] = !currentTasks[id]['completed']; //id가 id인 task의 complete 여부를 토글함.
-        setTasks(currentTasks); //tasks 배열을 변경된 currentTasks로 갱신함. 
+        _saveTasks(currentTasks); //tasks 배열을 변경된 currentTasks로 갱신함. 
     };
 
     const _updateTask = item => { //item을 속성으로 받는 컴포넌트
         const currentTasks = Object.assign({}, tasks); 
         currentTasks[item.id] = item; //넘겨받은 item의 id를 갖는 task를 item으로 변경함. 
-        setTasks(currentTasks); //tasks 배열을 변경된 currentTasks로 갱신함. 
+        _saveTasks(currentTasks); //tasks 배열을 변경된 currentTasks로 갱신함. 
     };
 
     const _onBlur = () => {
@@ -73,11 +89,17 @@ export default function App() {
     const _setSortStateIndex = () => {
         setSortStateIndex((sortStateIndex+1)%3);
     }
+    
+    const _updateEmotion = item =>{
+        const currentTasks = Object.assign({}, tasks);
+        currentTasks[item.id] = item;
+        _saveTasks(currentTasks);
+    }
 
     //XML 마크업 구조에 {}로 자바스크립트 코드를 감싸는 형태의 문법
     //onSubmitEditing: submit 버튼이 눌리면 _addTask가 실행됨. 
     //onBlur: item이 focus를 잃으면 실행됨. 
-    return(
+    return isReady ? (
         <SafeAreaView style = {viewStyles.container}>
             <StatusBar barStyle="light-content" style={textStyles.statusBar}/>
             <View style={btnStyles.bottomicon}>  
@@ -85,35 +107,27 @@ export default function App() {
             <Text style={textStyles.title}>NOV 22</Text>
             <IconButton type={images.right}/>
             </View>
-<<<<<<< Updated upstream
-            <TouchableOpacity style={btnStyles.selectall}>
-=======
 
             <TouchableOpacity style={btnStyles.selectall} onPress={_setSortStateIndex}>
             <Text style={textStyles.select}>{SHOWSTATES[sortStateIndex]}</Text>
             </TouchableOpacity>
->>>>>>> Stashed changes
 
-            <Text style={textStyles.select}>complete</Text>
-            </TouchableOpacity>
                 <ScrollView width = {width-20}>
-<<<<<<< Updated upstream
-                    {Object.values(tasks).map(item => (
-=======
                     {Object.values(tasks).filter(FILTER_MAP[sortStateIndex]).map(item => (
->>>>>>> Stashed changes
                         <Task key = {item.id} item={item} deleteTask={_deleteTask}  //리액트 컴포넌트가 여러 컴포넌트를 구분하라 수 있도록 id값 설정
-                        toggleTask={_toggleTask} updateTask={_updateTask}/>
+                        toggleTask={_toggleTask} updateTask={_updateTask} updateEmotion={_updateEmotion}/>
                     ))}
                     <View style={btnStyles.bottomicon}>
-<<<<<<< Updated upstream
-=======
                     <IconButton type={images.update}/>
->>>>>>> Stashed changes
                     <IconButton type={images.add} onPressOut={_addTask}/>
                     </View>
                 </ScrollView>
         </SafeAreaView>
+    ) : (
+        <AppLoading
+            startAsync = {_loadTasks}
+            onFinish={()=> setIsReady(true)}
+            onError={console.error}/>
     );
 };
 

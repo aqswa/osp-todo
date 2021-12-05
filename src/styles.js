@@ -50,9 +50,6 @@ export const btnStyles = StyleSheet.create({
         width: 30,
         height: 30,
         margin: 10,
-<<<<<<< Updated upstream
-=======
         fontSize: 30,
->>>>>>> Stashed changes
     }
 })
