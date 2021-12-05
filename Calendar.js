@@ -1,26 +1,34 @@
 import React from 'react';
 import {View, StyleSheet,Dimensions } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { theme } from "../theme";
 import { Calendar, CalndarList, Agenda, LocaleConfig } from "react-native-calendars";
 import { images } from '../images';
 import IconButton from './IconButton';
+import Input from './Input';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import SearchScreen from './Search_App';
+import { useNavigation } from '@react-navigation/native';
 
 
 LocaleConfig.locales['fr'] = {
     monthNames: ['January','Feburary','March','April','May','June','July','August','September','October','November','December'],
     monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
-    dayNames: ['일요일','월요일', '화요일','수요일','목요일','금요일','토요일'],
-    dayNamesShort: ['일', '월','화','수','목','금','토'],
+    dayNames: ['Sunday','Monday', 'Tuesday','Wendsday','Thursday','Friday','Saturday'],
+    dayNamesShort: ['Sun', 'Mon','Tue','Wen','Thu','Fri','sat'],
     today: 'Aujourd\'hui'
   };
   LocaleConfig.defaultLocale = 'fr';
 
-  const calendar  = () => {
+  const calendar  = ({text}) => {
+      const navigation = useNavigation();
       return(
       <View>
-          <View style = {calStyle.top}>
-              <IconButton type = {images.search}/>
-              <IconButton type = {images.add} />
+          <View style = {calStyle.top}> 
+            <TouchableOpacity onPress={() => navigation.navigate('SearchScreen')}>
+                <IconButton type = {images.search} />
+            </TouchableOpacity>
+            <IconButton type = {images.add} />
           </View>
           
           <Calendar style = {calStyle.container}
@@ -49,7 +57,7 @@ LocaleConfig.locales['fr'] = {
             textDayHeaderFontWeight: '300',
             textDayFontSize: 16,
             textMonthFontSize: 16,
-            textDayHeaderFontSize: 16}}>
+            textDayHeaderFontSize: 15}}>
 
             current = {'2021-11-26'}
             minDate = {'2020-01-01'}
@@ -90,8 +98,7 @@ LocaleConfig.locales['fr'] = {
             // Enable the option to swipe between months. Default = false
             enableSwipeMonths={true}
         </Calendar>
-
-    </View>
+        </View>
     )
 } 
 
@@ -108,7 +115,8 @@ const calStyle = StyleSheet.create({
       container: {
         height: 350,
         marginTop: 150,
-        width:  Dimensions.get('window').width-50
+        width:  Dimensions.get('window').width-50,
+        marginLeft: 25
       },
   });
 
