@@ -5,10 +5,11 @@ import PropTypes from 'prop-types';
 import IconButton from './IconButton';
 import {images} from '../images';
 import Input from './Input';
+import { setStatusBarBackgroundColor } from 'expo-status-bar';
 
-const Task = ({item, deleteTask, toggleTask, updateTask })=> {
+const Task = ({backstyle, item, deleteTask, toggleTask, updateTask })=> {
     const [isEditing, setIsEditing] = useState(false);
-    const [text, setText] = useState(item.text);
+    const [text, setText] = useState(item.text); //이부분이 text 엔터 치면 set 되도록
     const _handleUpdateButtonPress = () => {
         setIsEditing(true);
     };
@@ -26,6 +27,24 @@ const Task = ({item, deleteTask, toggleTask, updateTask })=> {
             setText(item.text);
         }
     };
+    
+    const taskStyle = StyleSheet.create({
+        container: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            backgroundColor: backstyle,
+            borderRadius: 10,
+            padding: 5,
+            marginTop: 3,
+            marginLeft: 0,
+        },
+    
+        contents: {
+            flex: 1,
+            fontSize: 24,
+            color: theme.text,
+        },
+    });
 
     return isEditing? (
         <Input value= {text} onChangeText={text => setText(text)}
@@ -47,23 +66,9 @@ const Task = ({item, deleteTask, toggleTask, updateTask })=> {
     );
 };
 
-const taskStyle = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: theme.itemBackground,
-        borderRadius: 10,
-        padding: 5,
-        marginTop: 3,
-        marginLeft: 0,
-    },
-
-    contents: {
-        flex: 1,
-        fontSize: 24,
-        color: theme.text,
-    },
-});
+function getRandomColor() {
+    return "#" + Math.floor(Math.random() * 16777215).toString(16);
+}
 
 Task.prototype={
     item: PropTypes.object.isRequired,
