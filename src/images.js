@@ -8,6 +8,12 @@ import Left from '../assets/left_icon.png';
 import Add from '../assets/add_icon.png';
 import Emotion from '../assets/emotion_default_icon.png';
 
+//edit screen icons
+import Edit_Uncheck from '../assets/edit_uncheck.png';
+import Edit_Check from '../assets/edit_check.png';
+import Edit_List from '../assets/edit_list.png';
+import Edit_Save from '../assets/edit_save.png';
+
 export const images = {
     uncompleted: UncheckedBox,
     completed: CheckedBox,
@@ -18,4 +24,10 @@ export const images = {
     left: Left,
     add: Add,
     emotion: Emotion,
+    
+    //edit screen icons
+    edit_uncheck:Edit_Uncheck,
+    edit_check: Edit_Check,
+    edit_list:Edit_List,
+    edit_save:Edit_Save,
 };
