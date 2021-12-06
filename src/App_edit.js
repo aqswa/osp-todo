@@ -56,10 +56,10 @@ export default function App() {
         for(var i=1; i <= m; i++){
             var j = String(i);
              if(currentTasks[j]['edit_check'] == true){
-                delete currentTasks[j]; 
-                setTasks(currentTasks);
+                delete currentTasks[j];
             }
         }
+        setTasks(currentTasks);
     };
 
 
