@@ -28,6 +28,10 @@ export default function App() {
         }
     };
 
+    //function getRandomColor() {
+      //  return "#" + Math.floor(Math.random() * 16777215).toString(16);
+    //}
+
     const _loadTasks = async () => {
         const loadedTasks = await AsyncStorage.getItem('tasks');
         setTasks(JSON.parse(loadedTasks || '{}'));
@@ -39,11 +43,11 @@ export default function App() {
     //});
 
     const _addTask = ()=> {
-        alert('Add: ${newTask}');
         const ID = Date.now().toString();
         const newTaskObject = {
             [ID]: {id: ID, text: newTask, completed: false},
         };
+
         setNewTask('');
        // setTasks({...tasks, ...newTaskObject});
         _saveTasks({...tasks, ...newTaskObject});
@@ -77,6 +81,10 @@ export default function App() {
     const _handleTextChange = text => {
         setNewTask(text);
     };
+    function getRandomColor() {
+        return "#" + Math.floor(Math.random() * 16777217).toString(16);
+        //return "#" + Math.floor(Math.random() * 16777216).toString(16);
+    }
 
     return isReady ? (
         <SafeAreaView style = {viewStyles.container}>
@@ -86,7 +94,7 @@ export default function App() {
             onSubmitEditing={_addTask} onBlur={_onBlur}/>
             <ScrollView width = {width-20}>
                 {Object.values(tasks).reverse().map(item => (
-                    <Task key={item.id} item={item} deleteTask={_deleteTask}
+                    <Task backstyle={getRandomColor()} key={item.id} item={item} deleteTask={_deleteTask}
                     toggleTask = {_toggleTask} updateTask={_updateTask}/>
                 ))}
             </ScrollView>
