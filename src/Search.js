@@ -2,7 +2,7 @@
 import React, {useState, useEffect} from 'react';
 import { FlatList, Text, SafeAreaView, StyleSheet, View, TextInput } from 'react-native';
 import {StatusBar} from 'react-native';
-import {viewStyles, textStyles} from './src/styles';
+import {viewStyles, textStyles} from './styles';
 //import { SearchBar } from 'react-native-elements';
 
 const App =() => {
