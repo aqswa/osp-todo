@@ -18,6 +18,7 @@ import IconButton from './components/IconButton';
 import { images } from './images';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppLoading from 'expo-app-loading';
+import { Container } from '@material-ui/core';
 
 
 const FILTER_MAP = {
@@ -49,6 +50,7 @@ function Main({navigation}) {
         }
     }
     const _loadTasks = async () => {
+        console.log('Main loading');
         const loadedTasks = await AsyncStorage.getItem('tasks');
         setTasks(JSON.parse(loadedTasks || '{}'));
     };
@@ -124,16 +126,18 @@ function Main({navigation}) {
                         toggleTask={_toggleTask} updateTask={_updateTask} updateEmotion={_updateEmotion}/>
                     ))}
                     <View style={btnStyles.bottomicon}>
-                    <IconButton type={images.update}  onPressOut={() =>navigation.navigate('Edit')}/>
+                    <IconButton type={images.update}  onPressOut={() =>navigation.push('Edit')}  />
                     <IconButton type={images.add} onPressOut={_addTask}/>
                     </View>
                 </ScrollView>
         </SafeAreaView>
     ) : (
+
         <AppLoading
             startAsync = {_loadTasks}
             onFinish={()=> setIsReady(true)}
             onError={console.error}/>
+        
     );
 };
 

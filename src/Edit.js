@@ -1,14 +1,11 @@
 import React, { useState } from 'react'; 
 import {StatusBar, SafeAreaView, Text, Dimensions, ScrollView, View, Button} from 'react-native';
 import {viewStyles, textStyles, btnStyles} from './styles';
-import Task from './components/Edit_Task';
+import Edit_Task from './components/Edit_Task';
 import IconButton from './components/IconButton';
 import { images } from './images';
-//import { Button } from '@material-ui/core';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppLoading from 'expo-app-loading';
-
-
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
@@ -16,7 +13,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 
 
-function Edit() {
+function Edit({navigation}) {
+
     const [isReady, setIsReady] = useState(false);
     const width = Dimensions.get('window').width;
 
@@ -37,50 +35,43 @@ function Edit() {
 
     //Load data
     const _loadTasks = async () => {
+        console.log('Edit loading')
         const loadedTasks = await AsyncStorage.getItem('tasks');
         setTasks(JSON.parse(loadedTasks || '{}'));
     };
 
     const _selectAllTask = () => {
-        const currentTasks = Object.assign({}, tasks);
-        var cnt = count;
-        var m= parseInt('4'); //task의 개수 받기
-
-        if(cnt%2 == 0){
-            for(var i=0; i< m; i++){
-                var j = String(i);
-                if(currentTasks[j]['edit_check'] == false){
-                    currentTasks[j]['edit_check'] = !currentTasks[j]['edit_check']; 
-                    setTasks(currentTasks);
+        const currentTasks = Object.assign({}, tasks); 
+        if(count%2==0){
+            Object.values(currentTasks).map(item => {
+                if(item.edit_check != true){
+                    var id = item.id;    
+                    currentTasks[id]['edit_check'] = !currentTasks[id]['edit_check'];           
                 }
-            } 
-        }      
+            })
+        }
 
-        else {
-            for(var i=0; i< m; i++){
-                var j = String(i);
-                currentTasks[j]['edit_check'] = !currentTasks[j]['edit_check']; 
-                setTasks(currentTasks);
-            }
+        else{
+            Object.values(currentTasks).map(item => {
+                    var id = item.id;    
+                    currentTasks[id]['edit_check'] = !currentTasks[id]['edit_check'];          
+            })
         }
         setCount(count+1);
-        _saveTasks(currentTasks); 
-
+        setTasks(currentTasks);
     };
  
 
     const _edit_deleteTask = () => {
         const currentTasks = Object.assign({}, tasks); 
-        var m= parseInt('5'); //task의 개수 받기
 
-        for(var i=1; i <= m; i++){
-            var j = String(i);
-             if(currentTasks[j]['edit_check'] == true){
-                delete currentTasks[j]; 
-                //console.log(j);
+        Object.values(currentTasks).map(item => {
+            if(item.edit_check == true){
+                var id = item.id;    
+                delete currentTasks[id];
             }
-        }
-        //setTasks(currentTasks);
+        })
+      
         _saveTasks(currentTasks);
     };
 
@@ -88,13 +79,18 @@ function Edit() {
     const _edit_toggleTask = id => { 
         const currentTasks = Object.assign({}, tasks); 
         currentTasks[id]['edit_check'] = !currentTasks[id]['edit_check']; //id가 id인 task의 check 여부를 토글함.
-        setTasks(currentTasks); //tasks 배열을 변경된 currentTasks로 갱신함. 
         setCount(0);
-       // _saveTasks(currentTasks);
+        setTasks(currentTasks); //tasks 배열을 변경된 currentTasks로 갱신함. 
+        
     };
 
+    const _edit_updateTask = item => { //item을 속성으로 받는 컴포넌트
+        const currentTasks = Object.assign({}, tasks); 
+        currentTasks[item.id] = item; //넘겨받은 item의 id를 갖는 task를 item으로 변경함. 
+        _saveTasks(currentTasks); //tasks 배열을 변경된 currentTasks로 갱신함. 
+    };
 
-    return  isReady ?(
+    return isReady ? (
         <SafeAreaView style = {viewStyles.container}>
             <StatusBar barStyle="light-content" style={textStyles.statusBar}/>
 
@@ -105,21 +101,21 @@ function Edit() {
             </View>
 
             <Button  
-            title = "All "
+            title = "All"
             onPress = {_selectAllTask} >
             </Button>  
                
                 <ScrollView width = {width-20}>
 
                     {Object.values(tasks).map(item => (
-                        <Task key = {item.id} item={item}  
-                        edit_toggleTask={_edit_toggleTask} edit_deleteTask={_edit_deleteTask}/>
+                        <Edit_Task key = {item.id} item={item}  
+                        edit_toggleTask={_edit_toggleTask} edit_deleteTask={_edit_deleteTask} edit_updateTask={_edit_updateTask}/>
                     ))}
 
                 </ScrollView>
                 <View style={btnStyles.bottom}>
                     <IconButton type={images.delete} onPressOut={_edit_deleteTask}  />
-                    <IconButton type={images.edit_save} />
+                    <IconButton type={images.edit_save} onPressOut={() =>navigation.push('Home')} />
                 </View>
                
         </SafeAreaView>
