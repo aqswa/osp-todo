@@ -1,6 +1,6 @@
 import React, { useState } from 'react'; 
-import {StatusBar, SafeAreaView, Text, Dimensions, ScrollView, View,Button} from 'react-native';
-import {viewStyles, textStyles, iconStyles, btnStyles} from './styles';
+import {StatusBar, SafeAreaView, Text, Dimensions, ScrollView, View, Button} from 'react-native';
+import {viewStyles, textStyles, btnStyles} from './styles';
 import Task from './components/Edit_Task';
 import IconButton from './components/IconButton';
 import { images } from './images';
@@ -9,8 +9,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppLoading from 'expo-app-loading';
 
 
-
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
@@ -22,11 +20,7 @@ function Edit() {
     const [isReady, setIsReady] = useState(false);
     const width = Dimensions.get('window').width;
 
-    //to do list 화면에서 data 가져오기
-    const [tasks, setTasks] = useState({ //tasks 배열의 초기값을 '1', '2'로 초기화
-        '1': {id: '1', text: " #1", edit_check: false}, 
-        '2': {id: '2', text: "#2", edit_check: false}, 
-    });
+    const [tasks, setTasks] = useState({});
 
     //_selectAllTask에 사용
     const [count, setCount] = useState(0);
@@ -40,6 +34,7 @@ function Edit() {
             console.error(e);
         }
     }
+
     //Load data
     const _loadTasks = async () => {
         const loadedTasks = await AsyncStorage.getItem('tasks');
@@ -47,13 +42,12 @@ function Edit() {
     };
 
     const _selectAllTask = () => {
-    
         const currentTasks = Object.assign({}, tasks);
         var cnt = count;
-        var m= parseInt('2'); //task의 개수 받기
+        var m= parseInt('4'); //task의 개수 받기
 
         if(cnt%2 == 0){
-            for(var i=1; i<= m; i++){
+            for(var i=0; i< m; i++){
                 var j = String(i);
                 if(currentTasks[j]['edit_check'] == false){
                     currentTasks[j]['edit_check'] = !currentTasks[j]['edit_check']; 
@@ -63,30 +57,31 @@ function Edit() {
         }      
 
         else {
-            for(var i=1; i<= m; i++){
+            for(var i=0; i< m; i++){
                 var j = String(i);
                 currentTasks[j]['edit_check'] = !currentTasks[j]['edit_check']; 
                 setTasks(currentTasks);
             }
         }
         setCount(count+1);
-        _saveTasks({...tasks, ...newTaskObject}); 
+        _saveTasks(currentTasks); 
+
     };
  
 
     const _edit_deleteTask = () => {
         const currentTasks = Object.assign({}, tasks); 
-        var m= parseInt('2'); //task의 개수 받기
+        var m= parseInt('5'); //task의 개수 받기
 
         for(var i=1; i <= m; i++){
             var j = String(i);
              if(currentTasks[j]['edit_check'] == true){
                 delete currentTasks[j]; 
-                //setTasks(currentTasks);
-                console.log(j);
+                //console.log(j);
             }
-        }setTasks(currentTasks);
-        _saveTasks({...tasks, ...newTaskObject});
+        }
+        //setTasks(currentTasks);
+        _saveTasks(currentTasks);
     };
 
  
@@ -95,7 +90,7 @@ function Edit() {
         currentTasks[id]['edit_check'] = !currentTasks[id]['edit_check']; //id가 id인 task의 check 여부를 토글함.
         setTasks(currentTasks); //tasks 배열을 변경된 currentTasks로 갱신함. 
         setCount(0);
-        _saveTasks({...tasks, ...newTaskObject});
+       // _saveTasks(currentTasks);
     };
 
 
@@ -109,8 +104,9 @@ function Edit() {
                 <IconButton type={images.right}/>   
             </View>
 
-            <Button  variant="outlined" color = "primary" onClick = {_selectAllTask} >
-                 All  
+            <Button  
+            title = "All "
+            onPress = {_selectAllTask} >
             </Button>  
                
                 <ScrollView width = {width-20}>
