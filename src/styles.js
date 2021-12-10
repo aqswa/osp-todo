@@ -25,6 +25,7 @@ export const textStyles = StyleSheet.create({
         color: theme.main,
         marginTop: 0,
         marginLeft: 0,
+        textAlign: 'left',
     },
 });
 
@@ -34,10 +35,21 @@ export const barStyles = StyleSheet.create({
     },
 });
 
-export const iconStyles = StyleSheet.create({
+export const btnStyles = StyleSheet.create({
     bottomicon:{
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-evenly',
+    },
+    selectall:{
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+    },
+    emotionIcon:{
+        tintColor: theme.text, //changes the color of all the non-transparent pixels to the tintColor
+        width: 30,
+        height: 30,
+        margin: 10,
+        fontSize: 30,
     }
 })
