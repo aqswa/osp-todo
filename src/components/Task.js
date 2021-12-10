@@ -7,8 +7,9 @@ import {images} from '../images';
 import Input from './Input';
 import { ModalPicker } from './ModalPicker';
 import { btnStyles } from '../styles';
+import { CategoryPicker } from './CategoryPicker';
 
-const Task = ({item, deleteTask, toggleTask, updateTask, updateEmotion}) => { //속성이 있는 경우 컴포넌트를 화살표 함수로 만드는 것이 편함. 속성값이 객체일 때 {}로 감쌈. 
+const Task = ({item, deleteTask, toggleTask, updateTask, updateEmotion, updateCate}) => { //속성이 있는 경우 컴포넌트를 화살표 함수로 만드는 것이 편함. 속성값이 객체일 때 {}로 감쌈. 
     const [isEditing, setIsEditing] = useState(false); //isEditing 변수를 false로 초기화함.
     const [text, setText] = useState(item.text); //text 변수를 item의 text 값으로 초기화함.
 
@@ -30,20 +31,36 @@ const Task = ({item, deleteTask, toggleTask, updateTask, updateEmotion}) => { //
     };
 
     const [emotion, setChooseData] = useState(item.emotion);
+    const [category, setChooseCate] = useState(item.category);
+
     const [isModalVisible, setisModalVisible] = useState(false);
+    const [isCateVisible, setisCateVisible] = useState(false);
     const changeModalVisibility = (bool) => {
         setisModalVisible(bool)
     }
+    const changeCateVisibility = (bool) => {
+        setisCateVisible(bool)
+    }
+
     const setData = (option) => {
         setChooseData(option);
-        //const editedEmotion = Object.assign({}, item, {emotion});
-        //updateEmotion(editedEmotion);
+        
     }
 
     useEffect ( () => {
         const editedEmotion = Object.assign({}, item, {emotion});
         updateEmotion(editedEmotion);
     }, [emotion] );
+
+    const setCate = (cateoption) => {
+        setChooseCate(cateoption);
+        
+    }
+
+    useEffect ( () => {
+        const editedCate = Object.assign({}, item, {category});
+        updateCate(editedCate);
+    }, [category] );
     
 
     return isEditing ? (
@@ -65,9 +82,15 @@ const Task = ({item, deleteTask, toggleTask, updateTask, updateEmotion}) => { //
             </Text>
             {item.completed || <IconButton type={images.update} id = {item.id} onPressOut={_handleUpdateButtonPress}/>}
             <IconButton type={images.delete} id = {item.id} onPressOut = {deleteTask}/>
+            
             <TouchableOpacity
                 onPress={() => changeModalVisibility(true)}>
                 <Text id = {item.id} value={emotion} style={btnStyles.emotionIcon}>{item.emotion}</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity
+                onPress={() => changeCateVisibility(true)}>
+                <Text id = {item.id} value={category} style={btnStyles.CateIcon}>{item.category}</Text>
             </TouchableOpacity>
 
             <Modal
@@ -81,6 +104,22 @@ const Task = ({item, deleteTask, toggleTask, updateTask, updateEmotion}) => { //
                     setData={setData}
                     updateEmotion={updateEmotion}
                     emotion={emotion}
+                    cTask={item}
+                />
+                
+            </Modal>
+
+            <Modal
+                transparent={true}
+                animationType='fade'
+                visible={isCateVisible}
+                nRequestClose={() => changeCateVisibility(false)}
+            >
+                <CategoryPicker
+                    changeCateVisibility={changeCateVisibility}
+                    setCate={setCate}
+                    updateCate={updateCate}
+                    category={category}
                     cTask={item}
                 />
             </Modal>
@@ -111,6 +150,7 @@ const taskStyle = StyleSheet.create({
 Task.propTypes = {
     item: PropTypes.string.isRequired,
     deleteTask: PropTypes.func.isRequired,
+    //updateCate: PropTypes.func.isRequired,
     toggleTask: PropTypes.func.isRequired,
 };
 
