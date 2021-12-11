@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {TouchableOpacity, StyleSheet, View, Modal, Text} from 'react-native';
 import {theme} from '../theme';
 import PropTypes from 'prop-types';
 import IconButton from './IconButton';
 import {images} from '../images';
+import { btnStyles } from '../styles';
 import { CategoryPicker } from './CategoryPicker';
 
 //deleteTask
@@ -11,6 +12,7 @@ const Task = ({item, toggleTask, updateTask, updateCate }) => { //속성이 있�
     const [isEditing, setIsEditing] = useState(false); //isEditing 변수를 false로 초기화함.
     const [text, setText] = useState(item.text); //text 변수를 item의 text 값으로 초기화함.
     const [category, setChooseCate] = useState(item.category);
+    const [isCateVisible, setisCateVisible] = useState(false);
     const changeCateVisibility = (bool) => {
         setisCateVisible(bool)
     }
