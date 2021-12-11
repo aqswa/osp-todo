@@ -8,7 +8,7 @@ import { btnStyles } from '../styles';
 import { CategoryPicker } from './CategoryPicker';
 
 //deleteTask
-const Task = ({item, toggleTask, updateTask, updateCate }) => { //속성이 있는 경우 컴포넌트를 화살표 함수로 만드는 것이 편함. 속성값이 객체일 때 {}로 감쌈. 
+const Task = ({item, toggleTask, updateTask, edit_updateTask }) => { //속성이 있는 경우 컴포넌트를 화살표 함수로 만드는 것이 편함. 속성값이 객체일 때 {}로 감쌈. 
     const [isEditing, setIsEditing] = useState(false); //isEditing 변수를 false로 초기화함.
     const [text, setText] = useState(item.text); //text 변수를 item의 text 값으로 초기화함.
     const [category, setChooseCate] = useState(item.category);
