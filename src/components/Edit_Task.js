@@ -4,12 +4,26 @@ import {theme} from '../theme';
 import PropTypes from 'prop-types';
 import IconButton from './IconButton';
 import {images} from '../images';
+import { CategoryPicker } from './CategoryPicker';
 
 //deleteTask
-const Task = ({item, toggleTask, updateTask }) => { //속성이 있는 경우 컴포넌트를 화살표 함수로 만드는 것이 편함. 속성값이 객체일 때 {}로 감쌈. 
+const Task = ({item, toggleTask, updateTask, updateCate }) => { //속성이 있는 경우 컴포넌트를 화살표 함수로 만드는 것이 편함. 속성값이 객체일 때 {}로 감쌈. 
     const [isEditing, setIsEditing] = useState(false); //isEditing 변수를 false로 초기화함.
     const [text, setText] = useState(item.text); //text 변수를 item의 text 값으로 초기화함.
+    const [category, setChooseCate] = useState(item.category);
+    const changeCateVisibility = (bool) => {
+        setisCateVisible(bool)
+    }
+    const setCate = (cateoption) => {
+        setChooseCate(cateoption);
+        
+    }
 
+    useEffect ( () => {
+        const editedCate = Object.assign({}, item, {category});
+        updateCate(editedCate);
+    }, [category] );
+    
     const _onSubmitEditing = () => {
         if (isEditing) {
             const editedTask = Object.assign({}, item, {text});
@@ -37,9 +51,26 @@ const Task = ({item, toggleTask, updateTask }) => { //속성이 있는 경우 �
                         id={item.id} onPressOut={toggleTask} edit_check={item.edit_check} />
 
                     <Text style={[taskStyle.contents]}> {item.text} </Text>
+                    <TouchableOpacity
+                       onPress={() => changeCateVisibility(true)}>
+                       <Text id = {item.id} value={category} style={btnStyles.CateIcon}>{item.category}</Text>
+                    </TouchableOpacity>
 
                     <IconButton type={images.edit_list}></IconButton>
-
+            <Modal
+                transparent={true}
+                animationType='fade'
+                visible={isCateVisible}
+                nRequestClose={() => changeCateVisibility(false)}
+            >
+                <CategoryPicker
+                    changeCateVisibility={changeCateVisibility}
+                    setCate={setCate}
+                    updateCate={updateCate}
+                    category={category}
+                    cTask={item}
+                />
+            </Modal>
         </View>
 
     );
