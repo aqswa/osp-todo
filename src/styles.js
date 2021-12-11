@@ -54,9 +54,9 @@ export const btnStyles = StyleSheet.create({
     }
       CateIcon:{
         color: theme.text, //changes the color of all the non-transparent pixels to the tintColor
-        width: 100,
+        width: 45,
         height: 30,
         margin: 10,
-        fontSize: 20,
+        fontSize: 16,
     }
 })
