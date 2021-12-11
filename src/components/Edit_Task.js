@@ -23,7 +23,7 @@ const Task = ({item, toggleTask, updateTask, edit_updateTask }) => { //속성이
 
     useEffect ( () => {
         const editedCate = Object.assign({}, item, {category});
-        updateCate(editedCate);
+        edit_updateTask(editedCate);
     }, [category] );
     
     const _onSubmitEditing = () => {
@@ -68,7 +68,7 @@ const Task = ({item, toggleTask, updateTask, edit_updateTask }) => { //속성이
                 <CategoryPicker
                     changeCateVisibility={changeCateVisibility}
                     setCate={setCate}
-                    updateCate={updateCate}
+                    edit_updateTask={edit_updateTask}
                     category={category}
                     cTask={item}
                 />
