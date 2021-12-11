@@ -89,6 +89,12 @@ function Edit({navigation}) {
         currentTasks[item.id] = item; //넘겨받은 item의 id를 갖는 task를 item으로 변경함. 
         _saveTasks(currentTasks); //tasks 배열을 변경된 currentTasks로 갱신함. 
     };
+    
+    const _edit_updateCate = item =>{
+        const currentTasks = Object.assign({}, tasks);
+        currentTasks[item.id] = item;
+        _saveTasks(currentTasks);
+    }
 
     return isReady ? (
         <SafeAreaView style = {viewStyles.container}>
@@ -109,7 +115,7 @@ function Edit({navigation}) {
 
                     {Object.values(tasks).map(item => (
                         <Edit_Task key = {item.id} item={item}  
-                        edit_toggleTask={_edit_toggleTask} edit_deleteTask={_edit_deleteTask} edit_updateTask={_edit_updateTask}/>
+                        edit_toggleTask={_edit_toggleTask} edit_deleteTask={_edit_deleteTask} edit_updateTask={_edit_updateTask} edit_updateCate={_edit_updateCate}/>
                     ))}
 
                 </ScrollView>
