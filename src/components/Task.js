@@ -44,7 +44,6 @@ const Task = ({item, deleteTask, toggleTask, updateTask, updateEmotion}) => { //
         const editedEmotion = Object.assign({}, item, {emotion});
         updateEmotion(editedEmotion);
     }, [emotion] );
-    
 
     return isEditing ? (
         <Input value={text} onChangeText={text => setText(text)}

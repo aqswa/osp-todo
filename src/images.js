@@ -7,6 +7,7 @@ import Right from '../assets/right_icon.png';
 import Left from '../assets/left_icon.png';
 import Add from '../assets/add_icon.png';
 import Emotion from '../assets/emotion_default_icon.png';
+import Search from '../assets/search_icon.png'
 
 export const images = {
     uncompleted: UncheckedBox,
@@ -18,4 +19,5 @@ export const images = {
     left: Left,
     add: Add,
     emotion: Emotion,
+    search: Search
 };
