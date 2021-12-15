@@ -20,9 +20,6 @@ function Edit({navigation}) {
 
     const [tasks, setTasks] = useState({});
 
-    //_selectAllTask에 사용
-    const [count, setCount] = useState(0);
-
     //Store data
     const _saveTasks = async tasks => {
         try{
