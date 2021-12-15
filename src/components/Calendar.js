@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+
+import React, {Component, useState, useEffect} from 'react';
+import { View, StyleSheet, Dimensions} from 'react-native';
 import { theme } from "../theme";
 import { Calendar, CalndarList, Agenda, LocaleConfig } from "react-native-calendars";
 import { images } from '../images';
@@ -18,21 +19,18 @@ LocaleConfig.locales['fr'] = {
 LocaleConfig.defaultLocale = 'fr';
 
 const calendar = () => {
+
     const navigation = useNavigation();
+
     return (
         <View>
             <View style={calStyle.top}>
                 <TouchableOpacity onPress={() => navigation.navigate('SearchScreen')}>
                     <IconButton type={images.search} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('CategoryScreen')}>
-                    <IconButton type={images.add} />
-                </TouchableOpacity>
             </View>
 
             <Calendar style={calStyle.container}
-                navigation = {navigation}
-                onSelect ={(day,navigation)  => { navigation.navigate('MainScreen', {day})}}
                 // Specify theme properties to override specific styles for calendar parts. Default = {}
                 theme={{
                     backgroundColor: theme.background,
@@ -59,21 +57,31 @@ const calendar = () => {
                     textDayFontSize: 16,
                     textMonthFontSize: 16,
                     textDayHeaderFontSize: 15
-                }}>
+                }}
 
                 current = {'2021-11-26'}
-                minDate = {'2020-01-01'}
-                maxDate = {'2022-12-31'}
+                minDate = {'2012-01-01'}
+                maxDate = {'2030-12-31'}
+                
+                onDayPress = {(day) => {
+                    navigation.navigate("MainScreen", {
+                        dayYear: day.year,
+                        dayMonth: day.month,
+                        dayDay: day.day,
+                        //selectedDate : day.year + "-" + day.dateString.split('-')[1] + "-" + day.dateString.split('-')[2]
+                    });
+                }}
 
-                onDayPress = {(day) => {onSelect(day,navigation)}}
-                onDayLongPress={(day) => { console.log('selected day', day) }}
+                //onDayLongPress={(day) => {onSelect(navigation, (day))}}
+
             // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
                 monthFormat={'yyyy MM'}
             // Handler which gets executed when visible month changes in calendar. Default = undefined
                 onMonthChange={(month) => { console.log('month changed', month) }}
-            // Hide month navigation arrows. Default = false                hideArrows={true}
+            // Hide month navigation arrows. Default = false                
+                hideArrows={true}
             // Replace default arrows with custom ones (direction can be 'left' or 'right')
-                renderArrow={(direction) => (<Arrow />)}
+                renderArrow={(direction) => <Arrow/>}
             // Do not show days of other months in month page. Default = false
                 hideExtraDays={true}
             // If hideArrows=false and hideExtraDays=false do not switch month when tapping on greyed out
@@ -90,17 +98,17 @@ const calendar = () => {
             // Handler which gets executed when press arrow icon right. It receive a callback can go next month
                 onPressArrowRight={addMonth => addMonth()}
             // Disable left arrow. Default = false
-                disableArrowLeft={true}
+
+                disableArrowLeft={false}
             // Disable right arrow. Default = false
-                disableArrowRight={true}
+                disableArrowRight={false}
             // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
                 disableAllTouchEventsForDisabledDays={true}
             /** Replace default month and year title with custom one. the function receive a date as parameter. */
-            //renderHeader={(date) => {/*Return JSX*/ }}
                 renderHeader={(date) => {/*Return JSX*/ }}
             // Enable the option to swipe between months. Default = false
                 enableSwipeMonths={true}
-            </Calendar>
+            />
         </View>
     )
 }
