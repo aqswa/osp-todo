@@ -1,5 +1,5 @@
 import React, { useState } from 'react'; 
-import {StatusBar, SafeAreaView, Text, Dimensions, ScrollView, View, Button} from 'react-native';
+import {StatusBar, SafeAreaView, Text, Dimensions, ScrollView, View, TouchableOpacity} from 'react-native';
 import {viewStyles, textStyles, btnStyles} from './styles';
 import Edit_Task from './components/Edit_Task';
 import IconButton from './components/IconButton';
@@ -105,10 +105,9 @@ function Edit({navigation}) {
                 <IconButton type={images.right}/>   
             </View>
 
-            <Button  
-            title = "All"
-            onPress = {_selectAllTask} >
-            </Button>  
+            <TouchableOpacity style={btnStyles.selectall} onPress={_selectAllTask}>
+            <Text style={textStyles.select}> All</Text>
+            </TouchableOpacity> 
                
                 <ScrollView width = {width-20}>
 
