@@ -51,5 +51,12 @@ export const btnStyles = StyleSheet.create({
         height: 30,
         margin: 10,
         fontSize: 30,
+    },
+    CateIcon:{
+        color: theme.text, //changes the color of all the non-transparent pixels to the tintColor
+        width: 45,
+        height: 30,
+        margin: 10,
+        fontSize: 16,
     }
 })

@@ -24,7 +24,8 @@ export const images = {
     left: Left,
     add: Add,
     emotion: Emotion,
-
+    
+    //edit screen icons
     edit_uncheck:Edit_Uncheck,
     edit_check: Edit_Check,
     edit_list:Edit_List,

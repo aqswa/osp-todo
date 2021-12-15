@@ -20,6 +20,8 @@ function Edit({navigation}) {
 
     const [tasks, setTasks] = useState({});
 
+    const [count,setCount] = useState(0);
+
     //Store data
     const _saveTasks = async tasks => {
         try{
@@ -72,7 +74,6 @@ function Edit({navigation}) {
         _saveTasks(currentTasks);
     };
 
- 
     const _edit_toggleTask = id => { 
         const currentTasks = Object.assign({}, tasks); 
         currentTasks[id]['edit_check'] = !currentTasks[id]['edit_check']; //id가 id인 task의 check 여부를 토글함.
@@ -86,6 +87,7 @@ function Edit({navigation}) {
         currentTasks[item.id] = item; //넘겨받은 item의 id를 갖는 task를 item으로 변경함. 
         _saveTasks(currentTasks); //tasks 배열을 변경된 currentTasks로 갱신함. 
     };
+
     
     const _edit_updateCate = item =>{
         const currentTasks = Object.assign({}, tasks);

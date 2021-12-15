@@ -35,8 +35,8 @@ function Main({navigation}) {
     const [isReady, setIsReady] = useState(false);
     const [newTask, setNewTask] = useState(''); //const [값, 값을 변경하는 함수] = useState(상태의 초기 값)
     const [tasks, setTasks] = useState({ //tasks 배열의 초기값을 '1', '2'로 초기화
-        '1': {id: '1', text: "Todo item #1", completed: false, edit_check: false, emotion: '❔'}, //complete되지 않은 상태
-        '2': {id: '2', text: "Todo item #2", completed: true, edit_check: false, emotion: '❔'}, //complete한 상태
+        '1': {id: '1', text: "Todo item #1", completed: false, emotion: '❔', category: ':'}, //complete되지 않은 상태
+        '2': {id: '2', text: "Todo item #2", completed: true, emotion: '❔', category: ':'}, //complete한 상태
     });
     
     
