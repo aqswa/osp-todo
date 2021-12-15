@@ -16,7 +16,7 @@ const IconButton = ({type, onPressOut, id}) => { //IconButton 컴포넌트. type
     );
 };
 
-IconButton.defaultProps = { //id가 없어도 에러 메시지 뜨지 않도록 함. 
+IconButton.defaultProps = {  
     onPressOut: () => {},
 };
 

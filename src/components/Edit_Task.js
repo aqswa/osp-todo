@@ -7,24 +7,14 @@ import {images} from '../images';
 import { btnStyles } from '../styles';
 import { CategoryPicker } from './CategoryPicker';
 
-//deleteTask
-const Task = ({item, toggleTask, updateTask, edit_updateTask }) => { //속성이 있는 경우 컴포넌트를 화살표 함수로 만드는 것이 편함. 속성값이 객체일 때 {}로 감쌈. 
+
+const Edit_Task = ({item, edit_toggleTask, updateTask, edit_updateTask }) => { //속성이 있는 경우 컴포넌트를 화살표 함수로 만드는 것이 편함. 속성값이 객체일 때 {}로 감쌈. 
     const [isEditing, setIsEditing] = useState(false); //isEditing 변수를 false로 초기화함.
     const [text, setText] = useState(item.text); //text 변수를 item의 text 값으로 초기화함.
-    const [category, setChooseCate] = useState(item.category);
-    const [isCateVisible, setisCateVisible] = useState(false);
-    const changeCateVisibility = (bool) => {
-        setisCateVisible(bool)
-    }
-    const setCate = (cateoption) => {
-        setChooseCate(cateoption);
-        
-    }
 
-    useEffect ( () => {
-        const editedCate = Object.assign({}, item, {category});
-        edit_updateTask(editedCate);
-    }, [category] );
+    const _handleUpdateButtonPress = () => { //update 버튼이 눌리면 isEditing 변수를 true로 갱신함.
+        setIsEditing(true);
+    };
     
     const _onSubmitEditing = () => {
         if (isEditing) {
@@ -40,6 +30,26 @@ const Task = ({item, toggleTask, updateTask, edit_updateTask }) => { //속성이
             setText(item.text);
         }
     };
+    
+
+    const [category, setChooseCate] = useState(item.category);
+    const [isCateVisible, setisCateVisible] = useState(false);
+    const changeCateVisibility = (bool) => {
+        setisCateVisible(bool)
+    }
+
+    const setCate = (cateoption) => {
+        setChooseCate(cateoption);
+        
+    }
+
+    useEffect ( () => {
+        const editedCate = Object.assign({}, item, {category});
+        edit_updateTask(editedCate);
+    }, [category] );
+    
+    
+
 
     return isEditing ? (
         <Input value={text} onChangeText={text => setText(text)}
@@ -50,7 +60,7 @@ const Task = ({item, toggleTask, updateTask, edit_updateTask }) => { //속성이
         //Check - Uncheck
         <View style={taskStyle.container}>
                     <IconButton type={item.edit_check ? images.edit_check : images.edit_uncheck}
-                        id={item.id} onPressOut={toggleTask} edit_check={item.edit_check} />
+                        id={item.id} onPressOut={edit_toggleTask} edit_check={item.edit_check} />
 
                     <Text style={[taskStyle.contents]}> {item.text} </Text>
                     <TouchableOpacity
@@ -96,10 +106,10 @@ const taskStyle = StyleSheet.create({
     },
 });
 
-Task.propTypes = {
+Edit_Task.propTypes = {
     item: PropTypes.string.isRequired,
     deleteTask: PropTypes.func.isRequired,
     toggleTask: PropTypes.func.isRequired,
 };
 
-export default Task;
+export default Edit_Task;
