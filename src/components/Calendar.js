@@ -1,3 +1,4 @@
+
 import React, {Component, useState, useEffect} from 'react';
 import { View, StyleSheet, Dimensions} from 'react-native';
 import { theme } from "../theme";
@@ -20,11 +21,7 @@ LocaleConfig.defaultLocale = 'fr';
 const calendar = () => {
 
     const navigation = useNavigation();
-    /*const [moveDate, setMoveDate] = useState('');
-    useEffect (() => {
-        navigation.navigate('MainScreen', {date: moveDate})
-    }, [moveDate] );*/
-    
+
     return (
         <View>
             <View style={calStyle.top}>
@@ -76,6 +73,7 @@ const calendar = () => {
                 }}
 
                 //onDayLongPress={(day) => {onSelect(navigation, (day))}}
+
             // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
                 monthFormat={'yyyy MM'}
             // Handler which gets executed when visible month changes in calendar. Default = undefined
@@ -100,6 +98,7 @@ const calendar = () => {
             // Handler which gets executed when press arrow icon right. It receive a callback can go next month
                 onPressArrowRight={addMonth => addMonth()}
             // Disable left arrow. Default = false
+
                 disableArrowLeft={false}
             // Disable right arrow. Default = false
                 disableArrowRight={false}

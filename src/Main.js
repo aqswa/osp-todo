@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react'; //JSX(Javascript + eXtensible Markup Language) 구문이 있는 코드에 필요한 import문 
 //react는 오픈 소스 자바스크립트 라이브러리(페이스북이 지원)
 //리액트는 가상 DOM을 사용해 기존 DOM을 대체함. 변경 전후의 가상 DOM을 비교해 차이만 실제 DOM에 적용하는 방식. 

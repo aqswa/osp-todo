@@ -1,9 +1,13 @@
 /*This is an Example of SearchBar in React Native*/
 import React, {useState, useEffect} from 'react';
 import { FlatList, Text, SafeAreaView, StyleSheet, View, TextInput } from 'react-native';
+
+import {StatusBar} from 'react-native';
+import {viewStyles, textStyles} from './styles';
 //import { SearchBar } from 'react-native-elements';
 
-const SearchEngine =({text}) => {
+const SearchEngine = () => {
+
     const [filterdData, setfilterdData] = useState([]);
     const [masterData, setmasterData] = useState([]);
     const [search, setsearch] = useState('');
@@ -64,8 +68,9 @@ const SearchEngine =({text}) => {
     } 
 
     return (
-        <SafeAreaView style= {{ flex: 1}}>
-            <View style = {styles.container}>
+        <SafeAreaView style = {viewStyles.container}>
+            <StatusBar barStyle="light-content" style={textStyles.StatusBar}/>
+            <View style={styles.viewStyle}>
                 <TextInput
                   style={styles.textInputStyle}
                   value={(search)}
@@ -79,17 +84,19 @@ const SearchEngine =({text}) => {
                     ItemSeparatorComponent={ItemSeparatorView}
                     renderItem={ItemView}
                     />
-            </View>
+
+                    </View>
         </SafeAreaView>
     );
 };
 
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    
   },
   itemStyle: {
+    color: '#cfcfcf',
     padding: 15,
   },
   textInputStyle:{
@@ -103,3 +110,4 @@ const styles = StyleSheet.create({
 });
 
 export default SearchEngine;
+
