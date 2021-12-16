@@ -10,11 +10,11 @@ import React, { useState } from 'react'; //JSX(Javascript + eXtensible Markup La
  * 리액트와 리액트 네이티브에서 속성은 '클래스 속성 + 재렌더링'을 의미하는 용어.
  * */
 import {StatusBar, SafeAreaView, Text, Dimensions, ScrollView, View, TouchableOpacity, Component} from 'react-native';
-import {viewStyles, textStyles, iconStyles, btnStyles} from './styles';
-import Input from './components/Input';
-import Task from './components/Task';
-import IconButton from './components/IconButton';
-import { images } from './images';
+import {viewStyles, textStyles, iconStyles, btnStyles} from '../styles';
+import Input from './Input';
+import Task from './Task';
+import IconButton from './IconButton';
+import { images } from '../images';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppLoading from 'expo-app-loading';
 import { NavigationContainer } from '@react-navigation/native';
@@ -112,20 +112,84 @@ export default function Main({navigation, route}) {
 
     const _setDateLeft = () => {
         if(currentDay==1){
-            setMonth((currentMonth-1))
-            setDay(30)
+            if(currentMonth-1 == 0){
+                setMonth(12)
+                setDay(31)
+            }
+            if((currentMonth-1) < 8){
+                if((currentMonth-1) %2 ==1){
+                    setMonth((currentMonth-1))
+                    setDay(31)
+                }
+                else if((currentMonth-1) == 2) {
+                    setMonth(currentMonth-1)
+                    setDay(28)
+                }
+                else{
+                    setMonth((currentMonth-1))
+                    setDay(30)
+                }
+            }
+            else{
+                if((currentMonth-1) %2 ==0){
+                    setMonth((currentMonth-1))
+                    setDay(31)
+                }
+                else{
+                    setMonth((currentMonth-1))
+                    setDay(30)
+                }
+            }
         }
         else
             setDay((currentDay-1));
     }
 
     const _setDateRight = () => {
-        if(currentDay==31){
-            setMonth((currentMonth+1)%12)
-            setDay(1);
+        if(currentMonth<8) {
+            if((currentMonth%2) == 1){
+                if(currentDay==31){
+                    setMonth((currentMonth+1)%12)
+                    setDay(1);
+                }
+                else setDay((currentDay+1));
+            }
+            else {
+                if(currentDay==30){
+                    setMonth((currentMonth+1)%12)
+                    setDay(1);
+                }
+                else if(currentMonth == 2 && currentDay == 28){
+                    setMonth((currentMonth+1)%12)
+                    setDay(1);
+                }
+                else setDay((currentDay+1));
+            }
         }
-        else
-            setDay((currentDay+1));
+        else{
+            if((currentMonth%2) == 0){
+                if(currentDay==31){
+                    setMonth((currentMonth+1)%12)
+                    setDay(1);
+                }
+                else setDay((currentDay+1));
+            }
+            else {
+                if(currentDay==30){
+                    if(currentMonth+1 == 12){
+                        setMonth(12)
+                        setDay(1);
+                        
+                    }
+                    else{
+                        setMonth((currentMonth+1)%12)
+                        setDay(1);
+                    }
+                }
+                else setDay((currentDay+1));
+            }
+        }
+        
     }
 
     //XML 마크업 구조에 {}로 자바스크립트 코드를 감싸는 형태의 문법
