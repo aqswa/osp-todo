@@ -1,18 +1,22 @@
-
-import React from 'react';
-import {StatusBar} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {StatusBar, Text, Dimensions, ScrollView, View} from 'react-native';
 import { SafeAreaInsetsContext, SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { viewStyles, textStyles } from './styles';
-import Calendar from './components/Calendar';
+import Calendar from './Calendar';
+import { theme } from './theme';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import SearchEngine from './Search'
-import Main from './Main.js';
-import editScreen from './Edit';
+import SearchEngine from './components/Search_App'
+import { ScreenStack } from 'react-native-screens';
+import Category from './components/Category';
+import Main from './components/Main';
+import Edit from './components/Edit';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 function CalendarScreen(){
     return (
-        <SafeAreaView style={viewStyles.container}>
+        <SafeAreaView style={viewStyles.container} >
             <Calendar />
         </SafeAreaView>
     )
@@ -29,40 +33,47 @@ function SearchScreen(){
 function categoryScreen(){
     return (
         <SafeAreaView style = {viewStyles.container}>
-            <Category/>
+            <Category />
         </SafeAreaView>
     )
 }
 
-function mainScreen({route, navigation}){
-    return (
-        <Main route={route} navigation={navigation}/>
-    )
-}
-
-function EditScreen(){
+function mainScreen({navigation, route}){
     return (
         <SafeAreaView style = {viewStyles.container}>
-            <editScreen/>
+            <Main navigation={navigation} route={route}/>
         </SafeAreaView>
     )
 }
 
+function editScreen(){
+    return (
+        <SafeAreaView style = {viewStyles.container}>
+            <Edit />
+        </SafeAreaView>
+    )
+}
+
+
 const Stack = createStackNavigator();
+
+
+
 
 export default function App(){
     return (
         <SafeAreaProvider>
         <NavigationContainer >
                 <StatusBar barStyle="light-content" style={textStyles.statusBar}/>
-                <Stack.Navigator initialRouteName="calendar" screenOptions = {{headerShown: true}}>
-                    <Stack.Screen name = "calendar" component = {CalendarScreen} />
+                <Stack.Navigator initialRouteName="calendar" screenOptions = {{headerShown: false}}>
+                    <Stack.Screen name = "calendar" component = {CalendarScreen}  />
                     <Stack.Screen name = "SearchScreen" component = {SearchScreen} />
-                    <Stack.Screen name = "MainScreen" component = {mainScreen} />
-                    <Stack.Screen name = "editScreen" component = {EditScreen} />
+                    <Stack.Screen name = "CategoryScreen" component = {categoryScreen} />
+                    <Stack.Screen name = {"MainScreen"} component ={mainScreen} />
+                    <Stack.Screen name = "editScreen" component = {editScreen} />
                 </Stack.Navigator>
         </NavigationContainer>
         </SafeAreaProvider>
     );
-
 };
+
