@@ -102,9 +102,6 @@ export default function Main({navigation, route}) {
         currentTasks[item.id] = item;
         _saveTasks(currentTasks);
     }
-<<<<<<< HEAD
-
-=======
     
     const _updateCate = item =>{
         const currentTasks = Object.assign({}, tasks);
@@ -112,7 +109,6 @@ export default function Main({navigation, route}) {
         _saveTasks(currentTasks);
     }
  
->>>>>>> 9a68f5c21f63efa190ea43fcced15fc1f6c73813
     const [currentYear, setYear] = useState(route.params.dayYear)
     const [currentMonth, setMonth] = useState(route.params.dayMonth)
     const [currentDay, setDay] = useState(route.params.dayDay)
