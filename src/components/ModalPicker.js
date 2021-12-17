@@ -8,11 +8,11 @@ const OPTIONS = ['😀', '❗', '❤️', '🔥', '💊', '🛒'];
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 
-const ModalPicker = (props) => {
+const ModalPicker = ({props, updateEmotion, cTask, emotion, changeModalVisibility, setData}) => {
 
     const onPressItem = (option) => {
-        props.changeModalVisibility(false);
-        props.setData(option);
+        changeModalVisibility(false);
+        setData(option);
     }
 
     const option = OPTIONS.map((item, index) => {

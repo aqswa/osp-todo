@@ -1,33 +1,42 @@
-import React from 'react';
-import {Dimensions, StyleSheet, TextInput} from 'react-native';
+import React from "react";
+import {StyleSheet, TextInput, Dimensions, View} from 'react-native';
 import {theme} from '../theme';
+import { images } from '../images';
+import IconButton from './IconButton';
 
 const Input = ({value, onChangeText, onSubmitEditing, onBlur}) => {
     return (
-        <TextInput style={inputStyle.textInput}
-        placeholder="+ Add a task"
-        placeholderTextColor={theme.main}
-        maxLength={20}
-        keyboardAppearance="dark"
-        value={value} onChangeText={onChangeText}
-        onSubmitEditing={onSubmitEditing}
-        onBlur={onBlur}>
+        <View style = {InputStyle.TextInput}>
+
+        
+        <TextInput 
+            placeholder = "+ Add a task"
+            placeholderTextColor = {theme.main}
+            maxLength={20}
+            keyboardAppearance="dark"
+            value = {value} onChangeText= {onChangeText}
+            onSubmitEditing={onSubmitEditing}
+            onBlur={onBlur} >
         </TextInput>
+       
+        </View>
     );
 };
 
-const inputStyle = StyleSheet.create({
-    textInput: {
+const InputStyle = StyleSheet.create({
+    TextInput: {
         fontSize: 25,
-        width: Dimensions.get('window').width-20, //change the size depending on the window size using dimensions
+        width: Dimensions.get('window').width-100,
         height: 60,
-        marginTop: 10,
+        marginTop: 3,
         marginLeft: 3,
         paddingLeft: 15,
-        paddingTop: 2,
+        paddingTop: 0,
         borderRadius: 10,
         backgroundColor: theme.itemBackground,
         color: theme.text,
+        flexDirection: 'row',
+        //justifyContent: 'flex-end',
     },
 });
 

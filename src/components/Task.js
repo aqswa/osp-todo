@@ -52,15 +52,6 @@ const Task = ({item, deleteTask, toggleTask, updateTask, updateEmotion, updateCa
         updateEmotion(editedEmotion);
     }, [emotion] );
 
-    const setCate = (cateoption) => {
-        setChooseCate(cateoption);
-        
-    }
-
-    useEffect ( () => {
-        const editedCate = Object.assign({}, item, {category});
-        updateCate(editedCate);
-    }, [category] );
     
 
     return isEditing ? (
@@ -107,21 +98,6 @@ const Task = ({item, deleteTask, toggleTask, updateTask, updateEmotion, updateCa
                     cTask={item}
                 />
                 
-            </Modal>
-
-            <Modal
-                transparent={true}
-                animationType='fade'
-                visible={isCateVisible}
-                nRequestClose={() => changeCateVisibility(false)}
-            >
-                <CategoryPicker
-                    changeCateVisibility={changeCateVisibility}
-                    setCate={setCate}
-                    updateCate={updateCate}
-                    category={category}
-                    cTask={item}
-                />
             </Modal>
         </View>
 

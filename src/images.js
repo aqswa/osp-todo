@@ -7,7 +7,7 @@ import Right from '../assets/right_icon.png';
 import Left from '../assets/left_icon.png';
 import Add from '../assets/add_icon.png';
 import Emotion from '../assets/emotion_default_icon.png';
-import Search from '../assets/search_icon.png'
+import Search from '../assets/search.png'
 
 //edit screen icons
 import Edit_Uncheck from '../assets/edit_uncheck.png';
@@ -25,8 +25,8 @@ export const images = {
     left: Left,
     add: Add,
     emotion: Emotion,
-
-    search: Search
+    search: Search,
+    
     //edit screen icons
     edit_uncheck:Edit_Uncheck,
     edit_check: Edit_Check,
