@@ -1,5 +1,5 @@
 import React, { useState } from 'react'; 
-import {StatusBar, SafeAreaView, Text, Dimensions, ScrollView, View} from 'react-native';
+import {StatusBar, SafeAreaView, Text, Dimensions, ScrollView, View, useEffect} from 'react-native';
 import {viewStyles, textStyles, btnStyles} from '../styles';
 import Edit_Task from './Edit_task';
 import IconButton from './IconButton';
@@ -8,7 +8,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppLoading from 'expo-app-loading'; 
 import {useNavigation} from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
 
 function Edit({route}) {
     const navigation = useNavigation();
@@ -61,18 +60,15 @@ function Edit({route}) {
         setCount(count+1);
         setTasks(currentTasks);
     };
- 
 
     const _edit_deleteTask = () => {
         const currentTasks = Object.assign({}, tasks); 
-
         Object.values(currentTasks).map(item => {
             if(item.edit_check == true){
                 var id = item.id;    
                 delete currentTasks[id];
             }
         })
-      
         _saveTasks(currentTasks);
     };
 
@@ -81,7 +77,6 @@ function Edit({route}) {
         currentTasks[id]['edit_check'] = !currentTasks[id]['edit_check']; //id가 id인 task의 check 여부를 토글함.
         setCount(0);
         setTasks(currentTasks); //tasks 배열을 변경된 currentTasks로 갱신함. 
-        
     };
 
     const _edit_updateTask = item => { //item을 속성으로 받는 컴포넌트
@@ -89,13 +84,13 @@ function Edit({route}) {
         currentTasks[item.id] = item; //넘겨받은 item의 id를 갖는 task를 item으로 변경함. 
         _saveTasks(currentTasks); //tasks 배열을 변경된 currentTasks로 갱신함. 
     };
-
     
     const _edit_updateCate = item =>{
         const currentTasks = Object.assign({}, tasks);
         currentTasks[item.id] = item;
         _saveTasks(currentTasks);
     }
+
 
     return isReady ? (
         <SafeAreaView style = {viewStyles.container}>
@@ -108,15 +103,13 @@ function Edit({route}) {
             <TouchableOpacity style={btnStyles.selectall} onPress={_selectAllTask}>
             <Text style={textStyles.select}> All</Text>
             </TouchableOpacity> 
-               
                 <ScrollView width = {width-20}>
-
                     {Object.values(tasks).filter((item) => item.day === currentDay && item.month === currentMonth).map(item => (
                         <Edit_Task key = {item.id} item={item}  
                         edit_toggleTask={_edit_toggleTask} edit_deleteTask={_edit_deleteTask} edit_updateTask={_edit_updateTask} edit_updateCate={_edit_updateCate}/>
                     ))}
-
                 </ScrollView>
+
                 <View style={btnStyles.bottom}>
                     <IconButton type={images.delete} onPressOut={_edit_deleteTask}  />
                     <TouchableOpacity onPress={() => navigation.navigate('MainScreen', {
@@ -127,17 +120,13 @@ function Edit({route}) {
                     <IconButton type={images.edit_save} />
                     </TouchableOpacity>
                 </View>
-               
         </SafeAreaView>
-
-   ): (
+    ) : (
     <AppLoading
         startAsync = {_loadTasks}
         onFinish={()=> setIsReady(true)}
         onError={console.error}/>
     );
-
-
 };
 
 export default Edit;

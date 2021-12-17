@@ -3,8 +3,7 @@ import React, {useState, useEffect} from 'react';
 import { FlatList, Text, SafeAreaView, StyleSheet, View, TextInput } from 'react-native';
 //import { SearchBar } from 'react-native-elements';
 
-const SearchEngine =({text}) => {
-
+const SearchEngine = ({text}) => {
     const [filterdData, setfilterdData] = useState([]);
     const [masterData, setmasterData] = useState([]);
     const [search, setsearch] = useState('');
@@ -17,7 +16,7 @@ const SearchEngine =({text}) => {
     }, [])
 
     const fetchPosts = () => {
-        const apiURL = 'https://my-json-server.typicode.com/cham1ng/JSON_URL_/posts';
+        const apiURL = 'https://jsonplaceholder.typicode.com/posts';
         fetch(apiURL)
         .then((response) => response.json())
         .then((responseJson) => {
@@ -44,7 +43,6 @@ const SearchEngine =({text}) => {
             setsearch(text);
         }
     }
-
 
     const ItemView = ({item}) => {
         return (
@@ -85,13 +83,9 @@ const SearchEngine =({text}) => {
     );
 };
 
-
-
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    
   },
   itemStyle: {
     padding: 15,

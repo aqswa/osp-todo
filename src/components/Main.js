@@ -18,8 +18,8 @@ import { images } from '../images';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppLoading from 'expo-app-loading';
 import { NavigationContainer } from '@react-navigation/native';
-import { useNavigation } from '@react-navigation/native';
-import {useParams} from 'react';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
+import {useEffect} from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const FILTER_MAP = {
@@ -55,11 +55,10 @@ export default function Main({navigation, route}) {
         setTasks(JSON.parse(loadedTasks || '{}'));
     };
 
-    const SHOWSTATES = ['all', 'incomplete', 'complete'];
+    const SHOWSTATES = ['show all', 'incomplete', 'complete'];
     const [sortStateIndex, setSortStateIndex] = useState(0);
 
     const _addTask = () =>{ //iconButton onPressOUt에 대한 콜백 함수
-        alert(`Add: ${newTask}`); 
         const ID = Date.now().toString(); //Javascript: Date.now() 메소드는 UTC 기준으로 1970년 1월 1일 0시 0분 0초부터 현재까지 경과된 밀리 초를 반환
         const newTaskObject = {
             [ID]: {id: ID, text: newTask, completed: false, emotion:'❔', year: currentYear, month: currentMonth, day: currentDay}, 
@@ -103,7 +102,7 @@ export default function Main({navigation, route}) {
         currentTasks[item.id] = item;
         _saveTasks(currentTasks);
     }
- 
+
     const [currentYear, setYear] = useState(route.params.dayYear)
     const [currentMonth, setMonth] = useState(route.params.dayMonth)
     const [currentDay, setDay] = useState(route.params.dayDay)
@@ -189,6 +188,11 @@ export default function Main({navigation, route}) {
         }
         
     }
+
+    const isFocused = useIsFocused();
+    useEffect(() => {
+        if (isFocused) setIsReady(false);
+    }, [isFocused]);
 
     //XML 마크업 구조에 {}로 자바스크립트 코드를 감싸는 형태의 문법
     //onSubmitEditing: submit 버튼이 눌리면 _addTask가 실행됨. 
