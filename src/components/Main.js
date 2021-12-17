@@ -37,8 +37,8 @@ export default function Main({navigation, route}) {
     const [isReady, setIsReady] = useState(false);
     const [newTask, setNewTask] = useState(''); //const [값, 값을 변경하는 함수] = useState(상태의 초기 값)
     const [tasks, setTasks] = useState({ //tasks 배열의 초기값을 '1', '2'로 초기화
-        '1': {id: '1', text: "Todo item #1", completed: false, emotion: '❔', year: currentYear, month: currentMonth, day: currentDay}, //complete되지 않은 상태
-        '2': {id: '2', text: "Todo item #2", completed: true, emotion: '❔', year: currentYear, month: currentMonth, day: currentDay}, //complete한 상태
+        '1': {id: '1', text: "Todo item #1", completed: false, emotion: '❔',category: ':', year: currentYear, month: currentMonth, day: currentDay}, //complete되지 않은 상태
+        '2': {id: '2', text: "Todo item #2", completed: true, emotion: '❔',category: ':', year: currentYear, month: currentMonth, day: currentDay}, //complete한 상태
     });
 
     const _saveTasks = async tasks => {
@@ -62,7 +62,7 @@ export default function Main({navigation, route}) {
         alert(`Add: ${newTask}`); 
         const ID = Date.now().toString(); //Javascript: Date.now() 메소드는 UTC 기준으로 1970년 1월 1일 0시 0분 0초부터 현재까지 경과된 밀리 초를 반환
         const newTaskObject = {
-            [ID]: {id: ID, text: newTask, completed: false, emotion:'❔', year: currentYear, month: currentMonth, day: currentDay}, 
+            [ID]: {id: ID, text: newTask, completed: false, emotion:'❔',category: ':', year: currentYear, month: currentMonth, day: currentDay}, 
         }; //생성된 시각이 id인 newTaskObject 생성.
         setNewTask(''); //newTask 값을 ''으로 갱신함
         _saveTasks({...tasks, ...newTaskObject}); //...: spread syntax.
@@ -99,6 +99,12 @@ export default function Main({navigation, route}) {
     }
     
     const _updateEmotion = item => {
+        const currentTasks = Object.assign({}, tasks);
+        currentTasks[item.id] = item;
+        _saveTasks(currentTasks);
+    }
+    
+    const _updateCate = item =>{
         const currentTasks = Object.assign({}, tasks);
         currentTasks[item.id] = item;
         _saveTasks(currentTasks);
@@ -209,7 +215,7 @@ export default function Main({navigation, route}) {
                 <ScrollView width = {width-20}>
                     {Object.values(tasks).filter(FILTER_MAP[sortStateIndex]).filter((item) => item.day === currentDay && item.month === currentMonth).map(item => (
                         <Task key = {item.id} item={item} deleteTask={_deleteTask}  //리액트 컴포넌트가 여러 컴포넌트를 구분하라 수 있도록 id값 설정
-                        toggleTask={_toggleTask} updateTask={_updateTask} updateEmotion={_updateEmotion}/>
+                        toggleTask={_toggleTask} updateTask={_updateTask} updateEmotion={_updateEmotion} updateCate={_updateCate}/>
                     ))}
                     <View style={btnStyles.bottomicon}>
                         <TouchableOpacity onPress = {() => navigation.push('editScreen',{
