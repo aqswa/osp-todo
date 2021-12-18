@@ -10,6 +10,7 @@ import SearchEngine from './components/Search_App'
 import { ScreenStack } from 'react-native-screens';
 import Main from './components/Main';
 import Edit from './components/Edit';
+import Category from './components/Category';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function CalendarScreen({navigation, route}){
@@ -44,6 +45,14 @@ function editScreen({navigation, route}){
     )
 }
 
+function categoryScreen(){
+    return (
+        <SafeAreaView style = {viewStyles.container}>
+            <Category />
+        </SafeAreaView>
+    )
+}
+
 const Stack = createStackNavigator();
 
 export default function App(){
@@ -56,6 +65,7 @@ export default function App(){
                     <Stack.Screen name = "SearchScreen" component = {SearchScreen} />
                     <Stack.Screen name = {"MainScreen"} component ={mainScreen} />
                     <Stack.Screen name = "editScreen" component = {editScreen} />
+                    <Stack.Screen name = "CategoryScreen" component = {categoryScreen} />
                 </Stack.Navigator>
         </NavigationContainer>
         </SafeAreaProvider>
