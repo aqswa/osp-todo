@@ -1,7 +1,7 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native'; //Stylesheet: 앱에서 사용하는 스타일을 만들 수 있는 객체.
 import {theme} from './theme';
 
-export const ViewStyles = StyleSheet.create({
+export const viewStyles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: theme.background,
@@ -30,12 +30,10 @@ export const textStyles = StyleSheet.create({
 });
 
 export const barStyles = StyleSheet.create({
-    statusbar: {
+    statusbar:{
         backgroundColor: theme.background,
     },
-    
 });
-
 
 export const btnStyles = StyleSheet.create({
     bottomicon:{
@@ -52,6 +50,13 @@ export const btnStyles = StyleSheet.create({
         width: 30,
         height: 30,
         margin: 10,
-        fontSize: 30,
+        fontSize: 20,
+    },
+      CateIcon:{
+        color: theme.text, //changes the color of all the non-transparent pixels to the tintColor
+        width: 45,
+        height: 30,
+        margin: 10,
+        fontSize: 16,
     }
-});
+})

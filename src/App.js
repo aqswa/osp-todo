@@ -22,10 +22,10 @@ function CalendarScreen(){
     )
 }
 
-function SearchScreen({navigation, route}){
+function SearchScreen(){
     return (
         <SafeAreaView style = {viewStyles.container}>
-            <SearchEngine navigation={navigation} route={route}/>
+            <SearchEngine/>
         </SafeAreaView>
     )
 }
@@ -37,7 +37,13 @@ function categoryScreen(){
         </SafeAreaView>
     )
 }
-
+function editScreen({navigation, route}){
+    return (
+        <SafeAreaView style = {viewStyles.container}>
+            <Edit navigation={navigation} route={route}/>
+        </SafeAreaView>
+    )
+}
 function mainScreen({navigation, route}){
     return (
         <SafeAreaView style = {viewStyles.container}>
@@ -46,31 +52,22 @@ function mainScreen({navigation, route}){
     )
 }
 
-function editScreen({navigation, route}){
-    return (
-        <SafeAreaView style = {viewStyles.container}>
-            <Edit navigation={navigation} route={route}/>
-        </SafeAreaView>
-    )
-}
 
 
 const Stack = createStackNavigator();
-
-
-
 
 export default function App(){
     return (
         <SafeAreaProvider>
         <NavigationContainer >
                 <StatusBar barStyle="light-content" style={textStyles.statusBar}/>
-                <Stack.Navigator initialRouteName="calendar" screenOptions = {{headerShown: false}}>
+                <Stack.Navigator initialRouteName="calendar" screenOptions = {{headerShown: true}}>
                     <Stack.Screen name = "calendar" component = {CalendarScreen}  />
                     <Stack.Screen name = "SearchScreen" component = {SearchScreen} />
                     <Stack.Screen name = "CategoryScreen" component = {categoryScreen} />
-                    <Stack.Screen name = {"MainScreen"} component ={mainScreen} />
                     <Stack.Screen name = "editScreen" component = {editScreen} />
+                    <Stack.Screen name = "MainScreen" component ={mainScreen} />
+                    
                 </Stack.Navigator>
         </NavigationContainer>
         </SafeAreaProvider>

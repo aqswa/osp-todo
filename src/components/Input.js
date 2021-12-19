@@ -7,8 +7,6 @@ import IconButton from './IconButton';
 const Input = ({value, onChangeText, onSubmitEditing, onBlur}) => {
     return (
         <View style = {InputStyle.TextInput}>
-
-        
         <TextInput 
             placeholder = "+ Add a task"
             placeholderTextColor = {theme.main}
@@ -17,8 +15,7 @@ const Input = ({value, onChangeText, onSubmitEditing, onBlur}) => {
             value = {value} onChangeText= {onChangeText}
             onSubmitEditing={onSubmitEditing}
             onBlur={onBlur} >
-        </TextInput>
-       
+        </TextInput> 
         </View>
     );
 };

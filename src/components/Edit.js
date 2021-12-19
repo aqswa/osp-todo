@@ -10,8 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
-function Edit({route}) {
-    const navigation = useNavigation();
+function Edit({navigation, route}) {
 
     const [isReady, setIsReady] = useState(false);
     const width = Dimensions.get('window').width;
@@ -102,9 +101,7 @@ function Edit({route}) {
             <StatusBar barStyle="light-content" style={textStyles.statusBar}/>
 
             <View style={btnStyles.bottomicon}>  
-                <IconButton type={images.left}/>
-                <Text style={textStyles.title}> {currentMonth}/{currentDay}</Text>
-                <IconButton type={images.right}/>   
+                <Text style={textStyles.title}> {currentMonth}/{currentDay}</Text> 
             </View>
 
             <TouchableOpacity style={btnStyles.selectall} onPress={_selectAllTask}>
@@ -119,9 +116,9 @@ function Edit({route}) {
                     ))}
 
                 </ScrollView>
-                <View style={btnStyles.bottom}>
+                <View style={btnStyles.bottomicon}>
                     <IconButton type={images.delete} onPressOut={_edit_deleteTask}  />
-                    <TouchableOpacity onPress={() => navigation.navigate('MainScreen', {
+                    <TouchableOpacity onPresss = {() => setIsReady(false)} onPress={() => navigation.navigate('MainScreen', {
                         dayYear: currentYear,
                         dayMonth: currentMonth,
                         dayDay: currentDay,
