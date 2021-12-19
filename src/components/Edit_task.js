@@ -67,8 +67,7 @@ const Edit_Task = ({item, edit_toggleTask, updateTask, edit_updateTask }) => { /
                        onPress={() => changeCateVisibility(true)}>
                        <Text id = {item.id} value={category} style={btnStyles.CateIcon}>{item.category}</Text>
                     </TouchableOpacity>
-
-                    <IconButton type={images.edit_list}></IconButton>
+                    
             <Modal
                 transparent={true}
                 animationType='fade'
