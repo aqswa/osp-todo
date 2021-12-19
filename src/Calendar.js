@@ -17,8 +17,8 @@ LocaleConfig.locales['fr'] = {
 };
 LocaleConfig.defaultLocale = 'fr';
 
-const calendar = () => {
-    navigation = useNavigation();
+const calendar = ({navigation, route}) => {
+    //navigation = useNavigation();
 
     return (
         <View>

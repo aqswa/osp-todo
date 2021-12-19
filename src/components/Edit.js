@@ -1,22 +1,22 @@
 import React, { useState } from 'react'; 
-import {StatusBar, SafeAreaView, Text, Dimensions, ScrollView, View, useEffect} from 'react-native';
+import {StatusBar, SafeAreaView, Text, Dimensions, ScrollView, View,FlatList} from 'react-native';
 import {viewStyles, textStyles, btnStyles} from '../styles';
 import Edit_Task from './Edit_task';
 import IconButton from './IconButton';
 import { images } from '../images';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppLoading from 'expo-app-loading'; 
-import {useNavigation} from '@react-navigation/native';
+
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-function Edit({route}) {
-    const navigation = useNavigation();
 
-    const [isReady, setIsReady] = useState(false);
+function Edit({navigation, route}) {
+    //const navigation = useNavigation();
+   // AsyncStorage.clear();
+    const [isReady1, setIsReady1] = useState(false);
     const width = Dimensions.get('window').width;
 
-    const [tasks, setTasks] = useState({});
-
+    const [tasks, setTasks] = useState(tasks);
     //Using for select/deselect all
     const [count,setCount] = useState(0);
     //Using for Changing order of items
@@ -35,6 +35,7 @@ function Edit({route}) {
             console.error(e);
         }
     }
+
     const _saveNum = async num => {
         try{
             await AsyncStorage.setItem('num', JSON.stringify(num));
@@ -43,22 +44,26 @@ function Edit({route}) {
             console.error(e);
         }
     }
-    
+
     //Load data
     const _loadTasks = async () => {
         console.log('Edit loading')
         const loadedTasks = await AsyncStorage.getItem('tasks');
         setTasks(JSON.parse(loadedTasks || '{}'));
         const loadedNum = await AsyncStorage.getItem('num');
-        setNum(JSON.parse(loadedNum || '{}'))
+        setNum(JSON.parse(loadedNum || '{}'));
     };
 
+    const SHOWSTATES = ['select all', 'deselect all'];
+    const [selectStateIndex, setSelectStateIndex] = useState(0);
+    
     const _selectAllTask = () => {
         const currentTasks = Object.assign({}, tasks); 
         if(count%2==0){
             Object.values(currentTasks).map(item => {
                 if(item.edit_check != true){
                     var id = item.id;    
+                    console.log(id);
                     currentTasks[id]['edit_check'] = !currentTasks[id]['edit_check'];           
                 }
             })
@@ -71,25 +76,30 @@ function Edit({route}) {
             })
         }
         setCount(count+1);
+        setSelectStateIndex((selectStateIndex+1)%2);
         setTasks(currentTasks);
     };
+ 
 
     const _edit_deleteTask = () => {
         const currentTasks = Object.assign({}, tasks); 
+
         Object.values(currentTasks).map(item => {
             if(item.edit_check == true){
                 var id = item.id;    
                 delete currentTasks[id];
             }
         })
+        
         _saveTasks(currentTasks);
     };
 
     const _edit_toggleTask = id => { 
+        //console.log(currentTasks.key);
         const currentTasks = Object.assign({}, tasks); 
         currentTasks[id]['edit_check'] = !currentTasks[id]['edit_check']; //id가 id인 task의 check 여부를 토글함.
         setCount(0);
-        setTasks(currentTasks); //tasks 배열을 변경된 currentTasks로 갱신함. 
+        setTasks(currentTasks); //tasks 배열을 변경된 currentTasks로 갱신함.     
     };
 
     const _edit_updateTask = item => { //item을 속성으로 받는 컴포넌트
@@ -97,14 +107,14 @@ function Edit({route}) {
         currentTasks[item.id] = item; //넘겨받은 item의 id를 갖는 task를 item으로 변경함. 
         _saveTasks(currentTasks); //tasks 배열을 변경된 currentTasks로 갱신함. 
     };
-    
+
     const _edit_updateCate = item =>{
         const currentTasks = Object.assign({}, tasks);
         currentTasks[item.id] = item;
         _saveTasks(currentTasks);
     }
-    
-    const _edit_change = id => { //_deleteTask 컴포넌트
+
+     const _edit_change = id => { //_deleteTask 컴포넌트
         console.log('------------');
         alert("Move to the top");
         
@@ -123,7 +133,7 @@ function Edit({route}) {
         console.log('------------');
     };
 
-    return isReady ? (
+    return isReady1 ? (
         <SafeAreaView style = {viewStyles.container}>
             <StatusBar barStyle="light-content" style={textStyles.statusBar}/>
 
@@ -131,35 +141,47 @@ function Edit({route}) {
                 <Text style={textStyles.title}> {currentMonth}/{currentDay}</Text> 
             </View>
 
-            <TouchableOpacity style={btnStyles.selectall} onPress={_selectAllTask}>
-            <Text style={textStyles.select}> All</Text>
-            </TouchableOpacity> 
             
-            <ScrollView width = {width-20}>
+            <TouchableOpacity style={btnStyles.selectall} onPress={ _selectAllTask}>
+            <Text style={textStyles.select}>{SHOWSTATES[selectStateIndex]}</Text>
+            </TouchableOpacity>
+           
+
+          <ScrollView width = {width-20}>
+
               {Object.values(tasks).filter((item) => item.day === currentDay && item.month === currentMonth).map(item => (
                   <Edit_Task key = {item.id} item={item}  
                   edit_toggleTask={_edit_toggleTask} edit_deleteTask={_edit_deleteTask} edit_change={_edit_change} 
                   edit_updateTask={_edit_updateTask} edit_updateCate={_edit_updateCate}  />
               ))}
-           </ScrollView>
 
+          </ScrollView>
+
+    
                 <View style={btnStyles.bottom}>
                     <IconButton type={images.delete} onPressOut={_edit_deleteTask}  />
-                    <TouchableOpacity onPress={() => navigation.navigate('MainScreen', {
-                        dayYear: currentYear,
-                        dayMonth: currentMonth,
-                        dayDay: currentDay,
+                    <TouchableOpacity onPress={() => navigation.navigate( 'MainScreen', {
+                                                tasks : tasks,                                        
+                                                dayYear: currentYear,
+                                                dayMonth: currentMonth,
+                                                dayDay: currentDay,
                     })}>
                     <IconButton type={images.edit_save} />
+         
                     </TouchableOpacity>
                 </View>
+
+                
         </SafeAreaView>
-    ) : (
+
+   ): (
     <AppLoading
         startAsync = {_loadTasks}
-        onFinish={()=> setIsReady(true)}
+        onFinish={()=> setIsReady1(true)}
         onError={console.error}/>
     );
+
+
 };
 
 export default Edit;

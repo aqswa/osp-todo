@@ -41,6 +41,11 @@ export const btnStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-evenly',
     },
+    bottom:{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
     selectall:{
         alignItems: 'flex-start',
         justifyContent: 'flex-start',

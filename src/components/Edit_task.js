@@ -8,7 +8,7 @@ import { btnStyles } from '../styles';
 import { CategoryPicker } from './CategoryPicker';
 
 
-const Edit_Task = ({item, edit_toggleTask, updateTask, edit_updateTask }) => { //속성이 있는 경우 컴포넌트를 화살표 함수로 만드는 것이 편함. 속성값이 객체일 때 {}로 감쌈. 
+const Edit_Task = ({item, edit_toggleTask, updateTask, edit_change, edit_updateTask }) => { //속성이 있는 경우 컴포넌트를 화살표 함수로 만드는 것이 편함. 속성값이 객체일 때 {}로 감쌈. 
     const [isEditing, setIsEditing] = useState(false); //isEditing 변수를 false로 초기화함.
     const [text, setText] = useState(item.text); //text 변수를 item의 text 값으로 초기화함.
 
@@ -67,6 +67,8 @@ const Edit_Task = ({item, edit_toggleTask, updateTask, edit_updateTask }) => { /
                        onPress={() => changeCateVisibility(true)}>
                        <Text id = {item.id} value={category} style={btnStyles.CateIcon}>{item.category}</Text>
                     </TouchableOpacity>
+                   
+                    <IconButton  id={item.id} type={images.edit_list} onPressOut={edit_change}></IconButton>
                     
             <Modal
                 transparent={true}
