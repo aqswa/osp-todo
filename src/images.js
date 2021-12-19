@@ -15,6 +15,8 @@ import Edit_Check from '../assets/edit_check.png';
 import Edit_List from '../assets/edit_list.png';
 import Edit_Save from '../assets/edit_save.png';
 
+import List from '../assets/list.png';
+
 export const images = {
     uncompleted: UncheckedBox,
     completed: CheckedBox,
@@ -32,4 +34,6 @@ export const images = {
     edit_check: Edit_Check,
     edit_list:Edit_List,
     edit_save:Edit_Save,
+
+    list: List,
 };
