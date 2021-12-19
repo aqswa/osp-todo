@@ -27,7 +27,7 @@ const calendar = ({navigation, route}) => {
                     <IconButton type={images.search} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('CategoryScreen')}>
-                    <IconButton type={images.edit_list} />
+                    <IconButton type={images.list} />
                 </TouchableOpacity>
             </View>
 
