@@ -17,7 +17,10 @@ function Edit({route}) {
 
     const [tasks, setTasks] = useState({});
 
+    //Using for select/deselect all
     const [count,setCount] = useState(0);
+    //Using for Changing order of items
+    const [num,setNum] = useState(1000000000);
 
     const [currentYear, setYear] = useState(route.params.dayYear)
     const [currentMonth, setMonth] = useState(route.params.dayMonth)
@@ -32,12 +35,22 @@ function Edit({route}) {
             console.error(e);
         }
     }
-
+    const _saveNum = async num => {
+        try{
+            await AsyncStorage.setItem('num', JSON.stringify(num));
+            setNum(num);
+        }catch (e){
+            console.error(e);
+        }
+    }
+    
     //Load data
     const _loadTasks = async () => {
         console.log('Edit loading')
         const loadedTasks = await AsyncStorage.getItem('tasks');
         setTasks(JSON.parse(loadedTasks || '{}'));
+        const loadedNum = await AsyncStorage.getItem('num');
+        setNum(JSON.parse(loadedNum || '{}'))
     };
 
     const _selectAllTask = () => {
@@ -90,7 +103,25 @@ function Edit({route}) {
         currentTasks[item.id] = item;
         _saveTasks(currentTasks);
     }
+    
+    const _edit_change = id => { //_deleteTask 컴포넌트
+        console.log('------------');
+        alert("Move to the top");
+        
+        const currentTasks = Object.assign({}, tasks);
+        var ID = num.toString(); 
 
+        console.log(ID);
+        const newTaskObject = {
+            [ID]: {id: ID, text: currentTasks[id]['text'], completed: currentTasks[id]['completed'], emotion:currentTasks[id]['emotion'], category: currentTasks[id]['category'], 
+            year: currentTasks[id]['year'], month: currentTasks[id]['month'], day: currentTasks[id]['day']},
+        };
+        delete currentTasks[id];
+
+        _saveTasks({...currentTasks, ...newTaskObject}); //...: spread syntax.
+        _saveNum(num-1);
+        console.log('------------');
+    };
 
     return isReady ? (
         <SafeAreaView style = {viewStyles.container}>
@@ -103,12 +134,14 @@ function Edit({route}) {
             <TouchableOpacity style={btnStyles.selectall} onPress={_selectAllTask}>
             <Text style={textStyles.select}> All</Text>
             </TouchableOpacity> 
-                <ScrollView width = {width-20}>
-                    {Object.values(tasks).filter((item) => item.day === currentDay && item.month === currentMonth).map(item => (
-                        <Edit_Task key = {item.id} item={item}  
-                        edit_toggleTask={_edit_toggleTask} edit_deleteTask={_edit_deleteTask} edit_updateTask={_edit_updateTask} edit_updateCate={_edit_updateCate}/>
-                    ))}
-                </ScrollView>
+            
+            <ScrollView width = {width-20}>
+              {Object.values(tasks).filter((item) => item.day === currentDay && item.month === currentMonth).map(item => (
+                  <Edit_Task key = {item.id} item={item}  
+                  edit_toggleTask={_edit_toggleTask} edit_deleteTask={_edit_deleteTask} edit_change={_edit_change} 
+                  edit_updateTask={_edit_updateTask} edit_updateCate={_edit_updateCate}  />
+              ))}
+           </ScrollView>
 
                 <View style={btnStyles.bottom}>
                     <IconButton type={images.delete} onPressOut={_edit_deleteTask}  />
