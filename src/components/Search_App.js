@@ -14,7 +14,7 @@ const Input = ({value, onChangeText, onSubmitEditing, onBlur}) => {
     return (
         <View style = {taskStyle.TextInput}>
         <TextInput 
-            placeholder = "+ Add a task"
+            placeholder = "Search a task"
             placeholderTextColor = {theme.main}
             maxLength={20}
             keyboardAppearance="dark"
@@ -64,6 +64,16 @@ const Search = () => {
     const [tasks, setTasks] = useState({});
     const [isReady, setIsReady] = useState(false);
     const [search, setSearch] = useState('');
+
+    
+    const _saveTasks = async tasks => {
+        try{
+            await AsyncStorage.setItem('tasks', JSON.stringify(tasks));
+            setTasks(tasks);
+        }catch (e){
+            console.error(e);
+        }
+    }
 
 
     const _saveSearch = text => {

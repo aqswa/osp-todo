@@ -20,7 +20,7 @@ export const textStyles = StyleSheet.create({
         marginLeft: 0,
     },
     select: {
-        fontSize: 15,
+        fontSize: 20,
         fontWeight: '300',
         color: theme.main,
         marginTop: 0,
@@ -50,7 +50,7 @@ export const btnStyles = StyleSheet.create({
         width: 30,
         height: 30,
         margin: 10,
-        fontSize: 30,
+        fontSize: 24,
     },
       CateIcon:{
         color: theme.text, //changes the color of all the non-transparent pixels to the tintColor
