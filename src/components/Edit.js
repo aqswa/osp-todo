@@ -148,17 +148,13 @@ function Edit({navigation, route}) {
            
 
           <ScrollView width = {width-20}>
-
               {Object.values(tasks).filter((item) => item.day === currentDay && item.month === currentMonth).map(item => (
                   <Edit_Task key = {item.id} item={item}  
                   edit_toggleTask={_edit_toggleTask} edit_deleteTask={_edit_deleteTask} edit_change={_edit_change} 
                   edit_updateTask={_edit_updateTask} edit_updateCate={_edit_updateCate}  />
               ))}
-
-          </ScrollView>
-
-    
-                <View style={btnStyles.bottom}>
+                
+                  <View style={btnStyles.bottomicon}>
                     <IconButton type={images.delete} onPressOut={_edit_deleteTask}  />
                     <TouchableOpacity onPress={() => navigation.navigate( 'MainScreen', {
                                                 tasks : tasks,                                        
@@ -170,7 +166,7 @@ function Edit({navigation, route}) {
          
                     </TouchableOpacity>
                 </View>
-
+          </ScrollView>
                 
         </SafeAreaView>
 
