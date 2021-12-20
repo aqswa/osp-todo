@@ -119,7 +119,7 @@ function Edit({navigation, route}) {
         alert("Move to the top");
         
         const currentTasks = Object.assign({}, tasks);
-        var ID = num.toString();
+        var ID = String(num);
         console.log(ID);
 
         const newTaskObject = {
