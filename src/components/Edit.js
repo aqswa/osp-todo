@@ -115,7 +115,7 @@ function Edit({navigation, route}) {
     }
 
      const _edit_change = id => { //_deleteTask 컴포넌트
-       // alert("Move to the dop");
+        alert("Move to the dop");
         const currentTasks = Object.assign({}, tasks);
         var ID = String(num);
         if(String(num) == '[object Object]')
@@ -123,7 +123,7 @@ function Edit({navigation, route}) {
             ID = String(10000);
             _saveNum(10000-1);
         }
-        alert(ID);
+       
         const newTaskObject = {
             [ID]: {id: ID, text: currentTasks[id]['text'], completed: currentTasks[id]['completed'], emotion:currentTasks[id]['emotion'], category: currentTasks[id]['category'], 
             year: currentTasks[id]['year'], month: currentTasks[id]['month'], day: currentTasks[id]['day']},
