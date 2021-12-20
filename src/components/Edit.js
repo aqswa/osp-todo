@@ -114,8 +114,8 @@ function Edit({navigation, route}) {
         _saveTasks(currentTasks);
     }
 
-     const _edit_change = id => { //_deleteTask 컴포넌트
-        alert("Move to the dop");
+     const _edit_change = id => { 
+        alert("Move to the top");
         const currentTasks = Object.assign({}, tasks);
         var ID = String(num);
         if(String(num) == '[object Object]')
