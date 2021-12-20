@@ -115,13 +115,15 @@ function Edit({navigation, route}) {
     }
 
      const _edit_change = id => { //_deleteTask 컴포넌트
-        console.log('------------');
-        alert("Move to the top");
-        
+       // alert("Move to the dop");
         const currentTasks = Object.assign({}, tasks);
         var ID = String(num);
-        console.log(ID);
-
+        if(String(num) == '[object Object]')
+        {
+            ID = String(10000);
+            _saveNum(10000-1);
+        }
+        alert(ID);
         const newTaskObject = {
             [ID]: {id: ID, text: currentTasks[id]['text'], completed: currentTasks[id]['completed'], emotion:currentTasks[id]['emotion'], category: currentTasks[id]['category'], 
             year: currentTasks[id]['year'], month: currentTasks[id]['month'], day: currentTasks[id]['day']},
@@ -129,8 +131,9 @@ function Edit({navigation, route}) {
         delete currentTasks[id];
 
         _saveTasks({...currentTasks, ...newTaskObject}); //...: spread syntax.
-        _saveNum(num-1);
-        console.log('------------');
+        
+        if(ID != String(10000) )
+            _saveNum(num-1);
     };
 
     return isReady1 ? (
