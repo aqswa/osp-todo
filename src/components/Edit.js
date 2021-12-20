@@ -12,7 +12,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 function Edit({navigation, route}) {
     //const navigation = useNavigation();
-   // AsyncStorage.clear();
+    //AsyncStorage.clear();
     const [isReady1, setIsReady1] = useState(false);
     const width = Dimensions.get('window').width;
 
@@ -20,7 +20,7 @@ function Edit({navigation, route}) {
     //Using for select/deselect all
     const [count,setCount] = useState(0);
     //Using for Changing order of items
-    const [num,setNum] = useState(1000000000);
+    const [num,setNum] = useState(10000);
 
     const [currentYear, setYear] = useState(route.params.dayYear)
     const [currentMonth, setMonth] = useState(route.params.dayMonth)
@@ -119,9 +119,9 @@ function Edit({navigation, route}) {
         alert("Move to the top");
         
         const currentTasks = Object.assign({}, tasks);
-        var ID = num.toString(); 
-
+        var ID = num.toString();
         console.log(ID);
+
         const newTaskObject = {
             [ID]: {id: ID, text: currentTasks[id]['text'], completed: currentTasks[id]['completed'], emotion:currentTasks[id]['emotion'], category: currentTasks[id]['category'], 
             year: currentTasks[id]['year'], month: currentTasks[id]['month'], day: currentTasks[id]['day']},
